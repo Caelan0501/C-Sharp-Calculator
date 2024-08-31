@@ -1,10 +1,10 @@
-﻿Basic4Fun basic4Fun = new Basic4Fun();
+﻿Basic4Fun basic4Fun = new Basic4Fun(enableHistory:true);
 Console.WriteLine("Welcome to the Basic4fun interaction interface");
 Console.WriteLine("To use please type a 2 operand equation or type Help for more options");
 bool end = false;
 do
 {
-    string input = Console.ReadLine();
+    string? input = Console.ReadLine();
     if (input == null || input == "")
     {
     }

@@ -1,25 +1,29 @@
-﻿using Microsoft.VisualBasic.FileIO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 public class Basic4Fun
 {
-	//Constructor
-	public Basic4Fun()
+    private List<String>? History;
+    private int? Ihistory;
+
+    //Constructor
+    public Basic4Fun(bool enableHistory = false)
 	{
-        History = new List<String>();
-		Ihistory = 0;
+		if (enableHistory)
+		{
+            History = new List<String>();
+            Ihistory = 0;
+        }
     }
-	public string ToString()
+
+	public override string ToString()
 	{
 		return "4 Function Calculator";
 	}
 	//History
-	List<String> History;
-	int Ihistory;
 	public void ClearHistory()
 	{
-		History.Clear();
+		if(History != null) History.Clear();
 	}
 	/// <summary>
 	/// Reads the Last entry, Multiple uses will iterate backwards
@@ -27,11 +31,13 @@ public class Basic4Fun
 	/// <returns>"{a} {operator} {b} = {result} \n"</returns>
 	public string ReadRecentHistory()
 	{
-		if (History.Count == Ihistory)
+        if (Ihistory == null) return "";
+        if (History == null) return "";
+        if (History.Count == Ihistory)
 		{
 			return "No Futher History";
 		}
-		string history = History[History.Count - Ihistory - 1];
+		string history = History[History.Count - Ihistory.GetValueOrDefault() - 1];
         Ihistory++;
         return history;
 	}
@@ -41,6 +47,8 @@ public class Basic4Fun
     /// <returns>"{a} {operator} {b} = {result} \n" {next entry} ...</returns>
     public string ReadAllHistory()
 	{
+		if (History == null) return "";
+
 		Ihistory = 0;
 		string result = "";
 		foreach (string entry in History)
@@ -54,84 +62,71 @@ public class Basic4Fun
 	//Integer 5 function
 	public int Add(int a, int b)
 	{
-        Ihistory = 0;
-        History.Add(a.ToString() + " + " + b.ToString() + " = " + (a + b).ToString());
-		return a + b;
+		AddToHistory(a, '+', b, a + b);
+        return a + b;
 	}
 	public int Subtract(int a, int b)
 	{
-        Ihistory = 0;
-        History.Add(a.ToString() + " - " + b.ToString() + " = " + (a + b).ToString());
+        AddToHistory(a, '-', b, a - b);
         return a - b;
 	}
 	public int Multiply(int a, int b)
 	{
-        Ihistory = 0;
-        History.Add(a.ToString() + " * " + b.ToString() + " = " + (a + b).ToString());
+        AddToHistory(a, '*', b, a * b);
         return a * b;
 	}
 	public int Divide(int a, int b)
 	{
-        Ihistory = 0;
-        History.Add(a.ToString() + " / " + b.ToString() + " = " + (a + b).ToString());
+        AddToHistory(a, '/', b, a / b);
         return a / b;
 	}
 	public int Mod(int a, int b)
 	{
-        Ihistory = 0;
-        History.Add(a.ToString() + " % " + b.ToString() + " = " + (a + b).ToString());
+        AddToHistory(a, '%', b, a % b);
         return a % b;
 	}
 	
 	//Double 4 function
 	public double Add(double a, double b)
 	{
-        Ihistory = 0;
-        History.Add(a.ToString() + " + " + b.ToString() + " = " + (a + b).ToString());
+        AddToHistory(a, '+', b, a + b);
         return a + b;
 	}
 	public double Subtract(double a, double b)
 	{
-        Ihistory = 0;
-        History.Add(a.ToString() + " - " + b.ToString() + " = " + (a - b).ToString());
+        AddToHistory(a, '-', b, a - b);
         return a - b;
 	}
 	public double Multiply(double a, double b)
 	{
-        Ihistory = 0;
-        History.Add(a.ToString() + " * " + b.ToString() + " = " + (a * b).ToString());
+        AddToHistory(a, '*', b, a * b);
         return a * b;
 	}
 	public double Divide(double a, double b)
 	{
-        Ihistory = 0;
-        History.Add(a.ToString() + " / " + b.ToString() + " = " + (a / b).ToString());
+        AddToHistory(a, '/', b, a / b);
         return a / b;
 	}
 
 	//float 4 function
 	public float Add(float a, float b)
 	{
-        Ihistory = 0;
-        History.Add(a.ToString() + " + " + b.ToString() + " = " + (a + b).ToString());
+        AddToHistory(a, '+', b, a + b);
         return a + b;
 	}
 	public float Subtract(float a, float b)
 	{
-        Ihistory = 0;
-        History.Add(a.ToString() + " - " + b.ToString() + " = " + (a - b).ToString());
+        AddToHistory(a, '-', b, a - b);
         return a - b;
 	}
 	public float Multiply(float a, float b)
 	{
-        Ihistory = 0;
-        History.Add(a.ToString() + " * " + b.ToString() + " = " + (a * b).ToString());
+        AddToHistory(a, '*', b, a * b);
         return a * b;
 	}
 	public float Divide(float a, float b)
 	{
-        Ihistory = 0;
-        History.Add(a.ToString() + " / " + b.ToString() + " = " + (a / b).ToString());
+        AddToHistory(a, '/', b, a / b);
         return a / b;
 	}
 
@@ -139,39 +134,34 @@ public class Basic4Fun
 	//Impebedding convertion to doubles
 	public double Add(string aS, string bS)
 	{
-		Ihistory = 0;
-		double a = Double.Parse(aS);
+        double a = Double.Parse(aS);
 		double b = Double.Parse(bS);
-        History.Add(a.ToString() + " + " + b.ToString() + " = " + (a + b).ToString());
+        AddToHistory(a, '+', b, a + b);
         return a + b;
 	}
     public double Subtract(string aS, string bS)
     {
-        Ihistory = 0;
         double a = Double.Parse(aS);
         double b = Double.Parse(bS);
-        History.Add(a.ToString() + " - " + b.ToString() + " = " + (a - b).ToString());
+        AddToHistory(a, '-', b, a - b);
         return a - b;
     }
     public double Multiply(string aS, string bS)
     {
-        Ihistory = 0;
         double a = Double.Parse(aS);
         double b = Double.Parse(bS);
-        History.Add(a.ToString() + " * " + b.ToString() + " = " + (a * b).ToString());
+        AddToHistory(a, '*', b, a * b);
         return a * b;
     }
     public double Divide(string aS, string bS)
     {
-        Ihistory = 0;
         double a = Double.Parse(aS);
         double b = Double.Parse(bS);
-        History.Add(a.ToString() + " / " + b.ToString() + " = " + (a / b).ToString());
+        AddToHistory(a, '/', b, a / b);
         return (a / b);
     }
 	public int? Mod (string aS, string bS)
 	{
-		Ihistory = 0;
 		int a;
 		int b;
 		bool status = int.TryParse(aS, out a);
@@ -185,9 +175,34 @@ public class Basic4Fun
 		}
 		if (status)
 		{
-            History.Add(a.ToString() + " % " + b.ToString() + " = " + (a % b).ToString());
+            AddToHistory(a, '%', b, a % b);
             return a % b;
         }
 		return null;
 	}
+
+	protected void AddToHistory(int a, char op, int b, int result)
+	{
+		if (History != null)
+		{
+            Ihistory = 0;
+            History.Add(a.ToString() + " " + op + " " + b.ToString() + " = " + result.ToString());
+        }
+	}
+    protected void AddToHistory(double a, char op, double b, double result)
+    {
+        if (History != null)
+        {
+            Ihistory = 0;
+            History.Add(a.ToString() + " " + op + " " + b.ToString() + " = " + result.ToString());
+        }
+    }
+    protected void AddToHistory(float a, char op, float b, float result)
+    {
+        if (History != null)
+        {
+            Ihistory = 0;
+            History.Add(a.ToString() + " " + op + " " + b.ToString() + " = " + result.ToString());
+        }
+    }
 }
