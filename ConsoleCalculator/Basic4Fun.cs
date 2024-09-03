@@ -3,60 +3,16 @@ using System.Collections.Generic;
 
 public class Basic4Fun
 {
-    private List<String>? History;
-    private int? Ihistory;
-
     //Constructor
-    public Basic4Fun(bool enableHistory = false)
+    protected History history;
+    public Basic4Fun(bool enabledHistory = true)
 	{
-		if (enableHistory)
-		{
-            History = new List<String>();
-            Ihistory = 0;
-        }
+        history = new History(enabled:enabledHistory);
     }
 
 	public override string ToString()
 	{
 		return "4 Function Calculator";
-	}
-	//History
-	public void ClearHistory()
-	{
-		if(History != null) History.Clear();
-	}
-	/// <summary>
-	/// Reads the Last entry, Multiple uses will iterate backwards
-	/// </summary>
-	/// <returns>"{a} {operator} {b} = {result} \n"</returns>
-	public string ReadRecentHistory()
-	{
-        if (Ihistory == null) return "";
-        if (History == null) return "";
-        if (History.Count == Ihistory)
-		{
-			return "No Futher History";
-		}
-		string history = History[History.Count - Ihistory.GetValueOrDefault() - 1];
-        Ihistory++;
-        return history;
-	}
-    /// <summary>
-    /// Reads all history from youngest to oldest
-    /// </summary>
-    /// <returns>"{a} {operator} {b} = {result} \n" {next entry} ...</returns>
-    public string ReadAllHistory()
-	{
-		if (History == null) return "";
-
-		Ihistory = 0;
-		string result = "";
-		foreach (string entry in History)
-		{
-			result = entry + "\n" + result;
-		}
-		result = result + "End of History";
-		return result;
 	}
 
 	//Integer 5 function
@@ -183,26 +139,36 @@ public class Basic4Fun
 
 	protected void AddToHistory(int a, char op, int b, int result)
 	{
-		if (History != null)
-		{
-            Ihistory = 0;
-            History.Add(a.ToString() + " " + op + " " + b.ToString() + " = " + result.ToString());
-        }
+        history.AddEntry(a.ToString() + " " + op + " " + b.ToString() + " = " + result.ToString());
 	}
     protected void AddToHistory(double a, char op, double b, double result)
     {
-        if (History != null)
-        {
-            Ihistory = 0;
-            History.Add(a.ToString() + " " + op + " " + b.ToString() + " = " + result.ToString());
-        }
+        history.AddEntry(a.ToString() + " " + op + " " + b.ToString() + " = " + result.ToString());
     }
     protected void AddToHistory(float a, char op, float b, float result)
     {
-        if (History != null)
-        {
-            Ihistory = 0;
-            History.Add(a.ToString() + " " + op + " " + b.ToString() + " = " + result.ToString());
-        }
+        history.AddEntry(a.ToString() + " " + op + " " + b.ToString() + " = " + result.ToString());
     }
+
+	public string GetAllHistory()
+	{
+		return history.ReadAll();
+	}
+	public string GetRecentHistory()
+	{
+		return history.ReadRecent();
+	}
+
+	public void ClearHistory()
+	{
+		history.Clear();
+	}
+	public void PauseHistory()
+	{
+		history.Pause();
+	}
+	public void ResumeHistory()
+	{
+		history.Resume();
+	}
 }
