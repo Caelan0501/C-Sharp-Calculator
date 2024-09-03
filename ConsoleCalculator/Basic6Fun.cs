@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 public class Basic6Fun : Basic4Fun
 {
-    private List<string>? History;
-	private int? Ihistory;
-    private bool enableHistory;
-    public Basic6Fun(bool enableHistory = false)
+    public Basic6Fun(bool enabledHistory = true) : base(enabledHistory:enabledHistory)
 	{
-        this.enableHistory = enableHistory;
-        History = new List<String>();
-        Ihistory = 0;
     }
-	public int Power(int a, int b)
+    public override string ToString()
+    {
+        return "6 Function Calculator";
+    }
+    public int Power(int a, int b)
     {
         AddToHistory(a, '^', b, (int)(Math.Pow((double)(a), (double)(b))));
         return (int)(Math.Pow((double)(a), (double)(b)));
@@ -53,7 +51,18 @@ public class Basic6Fun : Basic4Fun
     {
         double a = Double.Parse(aS);
         double b = Double.Parse(bS);
-        AddToHistory(a, '√', b, Power(a, Divide(1, b)));
-        return Power(a, Divide(1, b));
+        double result;
+        if (history.IsEnabled())
+        {
+            history.Pause();
+            result = Power(a, Divide(1, b));
+            history.Resume();
+        }
+        else
+        {
+            result = Power(a, Divide(1, b));
+        }
+        AddToHistory(a, '√', b, result);
+        return result;
     }
 }
