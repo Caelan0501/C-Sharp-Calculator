@@ -5,6 +5,7 @@ Console.WriteLine("-------------------------------------------------------------
 Console.WriteLine("Which Calculator would you like to use");
 Console.WriteLine("     (1) Basic 4 Function calcuator");
 Console.WriteLine("     (2) Basic 6 Function calcuator");
+Console.WriteLine("     (3) Arithmetic Calculator");
 bool status = false;
 int option;
 do
@@ -15,8 +16,7 @@ do
     {
         Console.WriteLine("Please Try Again");
     }
-    Console.WriteLine((status && (option == 1 || option == 2)));
-} while (!(status && (option == 1 || option == 2)));
+} while (!(status && (option > 0 && option <= 3)));
 
 Console.WriteLine("Starting Calculator");
 Console.WriteLine("--------------------------------------------------------------------------");
@@ -30,7 +30,6 @@ switch (option)
             string? input = Console.ReadLine();
             switch (input)
             {
-
                 case "Help":
                 case "help":
                 case "HELP":
@@ -285,6 +284,62 @@ switch (option)
                 case "clearhistory":
                 case "CLEARHISTORY":
                     basic6fun.ClearHistory();
+                    Console.WriteLine("History Cleared");
+                    break;
+                default:
+                    break;
+            }
+        } while (!end);
+        break;
+    case 3:
+        Arithmetic arithmetic = new Arithmetic();
+        do
+        {
+            string? input = Console.ReadLine();
+            switch (input)
+            {
+                case "Help":
+                case "help":
+                case "HELP":
+                    Console.WriteLine("To use please input your Equation in the following format: {a} {operator} {b}");
+                    Console.WriteLine("ReadRecentHistory - Read the lastest History, Repeated use will backtrack further");
+                    Console.WriteLine("ReadAllHistory - Read All History from youngest to oldest");
+                    Console.WriteLine("Quit - End the program");
+                    break;
+                case "Quit":
+                case "quit":
+                case "QUIT":
+                    end = true;
+                    break;
+                case string s when Char.IsDigit(s[0]):
+                    Console.WriteLine(arithmetic.Solve(s));
+                    break;
+                case "GetAllHistory":
+                case "GETALLHISTORY":
+                case "getallhistory":
+                    Console.WriteLine(arithmetic.GetAllHistory());
+                    break;
+                case "GetRecentHistory":
+                case "getrecenthistory":
+                case "GETRECENTHISTORY":
+                    Console.WriteLine(arithmetic.GetRecentHistory());
+                    break;
+                case "ResumeHistory":
+                case "resumehistory":
+                case "RESUMEHISTORY":
+                    arithmetic.ResumeHistory();
+                    Console.WriteLine("History Resumed");
+                    break;
+                case "PauseHistory":
+                case "pausehistory":
+                case "PAUSEHISTORY":
+                    arithmetic.PauseHistory();
+                    Console.WriteLine("History Paused");
+                    break;
+                case "ClearHistory":
+                case "clearhistory":
+                case "CLEARHISTORY":
+                    arithmetic.ClearHistory();
                     Console.WriteLine("History Cleared");
                     break;
                 default:
