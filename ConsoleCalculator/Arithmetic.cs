@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Runtime.CompilerServices;
 
 public class Arithmetic : Basic6Fun
@@ -154,8 +155,9 @@ public class Arithmetic : Basic6Fun
                 case char c when Char.IsDigit(c):
                 case '.':
                     string number = equation[i].ToString();
-                    while ((i + 1 < equation.Length) && (Char.IsDigit(equation[i + 1])) || (equation[i + 1] == '.'))
+                    while (i + 1 < equation.Length)
                     {
+                        if (!(equation[i + 1] == '.' || Char.IsDigit(equation[i + 1]))) break;
                         i++;
                         number += equation[i];
                     }
@@ -255,6 +257,7 @@ public class Arithmetic : Basic6Fun
                     while (top.Type != Token.OP.LPAREN && ((token.Precedence < top.Precedence) || ((token.Precedence == top.Precedence) && token.Associativity == 'L')))
                     {
                         RPN.Add(operatorStack.Pop());
+                        if (operatorStack.Count == 0) break;
                         top = operatorStack.Peek();
                     }
                     operatorStack.Push(token);
