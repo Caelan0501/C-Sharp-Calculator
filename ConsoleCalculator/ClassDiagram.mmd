@@ -1,0 +1,93 @@
+﻿classDiagram
+
+    class Basic4fun {
+        #History history
+        +Basic4fun()
+        +ToString()
+        +GetAllHistory() string
+        +GetRecentHistory() string
+        +ClearHistory()
+        +PauseHistory()
+        +ResumeHistory()
+        #AddToHistory(int a, char op, int b, int result)
+        #AddToHistory(double a, char op, double b, double result)
+        #AddToHistory(float a, char op, float b, float result)
+        +Add(int a, int b) int
+        +Add(double a, double b) double
+        +Add(float a, float b) float
+        +Add(string a, string b) double
+        +Subtract(int a, int b) int
+        +Subtract(double a, double b) double
+        +Subtract(float a, float b) float
+        +Subtract(string a, string b) double
+        +Multiply(int a, int b) int
+        +Multiply(double a, double b) double
+        +Multiply(float a, float b) float
+        +Multiply(string a, string b) double
+        +Divide(int a, int b) int
+        +Divide(double a, double b) double
+        +Divide(float a, float b) float
+        +Divide(string a, string b) double
+        +Mod(int a, int b) int
+        +Mod(string a, string b) int
+    }
+
+    class History{
+        -List~string~ history
+        -bool enabled
+        -bool isChanged
+        +History()
+        +Clear()
+        +Resume()
+        +IsEnabled() bool
+        +AddEntry(string entry)
+        +ReadAll() string
+        +ReadRecent() string
+    }
+
+    class Basic6fun{
+        +Basic6fun()
+        +ToString()
+        +Power(int a, int b) int
+        +Power(double a, double b) double
+        +Power(float a, float b) float
+        +Power(string a, string b) double
+        +Root(int a, int b) int
+        +Root(double a, double b) double
+        +Root(float a, float b) float
+        +Root(string a, string b) double
+    }
+
+    class Token{
+        +string Name
+        +Token()
+    }
+
+    class Operand{
+        +double? value
+        +Operand(double num)
+        +Operand(string variable)
+    }
+
+    class Operator{
+        +int Precedence
+        +char Associativity
+        +Operator(char symbol)
+        +Operator(string function)
+    }
+
+    class Arithmetic{
+        +Arithmetic()
+        +ToString()
+        +Solve(string equation) double
+        -ParseTokens(string equation) List~Token~
+        #InfixToRPN(List~Token~) List~Token~
+
+    }
+
+    Token <|-- Operand
+    Token <|-- Operator
+    Basic4fun <|-- Basic6fun
+    Basic4fun *-- History
+    Token <.. Arithmetic
+    Basic6fun <|-- Arithmetic

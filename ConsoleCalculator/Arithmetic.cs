@@ -5,87 +5,6 @@ using System.Runtime.CompilerServices;
 
 public class Arithmetic : Basic6Fun
 {
-    protected class Token
-    {
-        public string Name;
-        public double Value;
-
-        public int Precedence = -1;
-        public char Associativity = 'N';
-        
-        public OP Type;
-        public enum OP { ADD, SUB, MULT, DIV, MOD, POWER, ROOT, LPAREN, RPAREN, NUMBER, ERROR };
-
-        public Token(string name)
-        {
-            Name = name;
-            bool isNumber = Double.TryParse(Name, out Value);
-            if (isNumber) Type = OP.NUMBER;
-            else
-            {
-                switch (name)
-                {
-                    case "+":
-                        Type = OP.ADD;
-                        Precedence = 2;
-                        Associativity = 'L';
-                        break;
-                    case "-":
-                        Type = OP.SUB;
-                        Precedence = 2;
-                        Associativity = 'L';
-                        break;
-                    case "*":
-                        Type = OP.MULT;
-                        Precedence = 3;
-                        Associativity = 'L';
-                        break;
-                    case "/":
-                        Type = OP.DIV;
-                        Precedence = 3;
-                        Associativity = 'L';
-                        break;
-                    case "%":
-                        Type = OP.MOD;
-                        Precedence = 3;
-                        Associativity = 'L';
-                        break;
-                    case "^":
-                        Type = OP.POWER;
-                        Precedence = 4;
-                        Associativity = 'R';
-                        break;
-                    case "Root":
-                        Type = OP.ROOT;
-                        Associativity = 'L';
-                        Precedence = 4;
-                        break;
-                    case "(":
-                        Type = OP.LPAREN;
-                        break;
-                    case ")":
-                        Type = OP.RPAREN;
-                        break;
-                    default:
-                        Type = OP.ERROR;
-                        break;
-                }
-            }
-        }
-        public Token(double num)
-        {
-            Name = num.ToString();
-            Value = num;
-            Precedence = -1;
-            Type = OP.NUMBER;
-            Associativity = 'N';
-        }
-        public bool IsOperator()
-        {
-            if (Type == OP.NUMBER || Type == OP.ERROR) return false;
-            else return true;
-        }
-    }
     public Arithmetic(bool enabledHistory = true) :base(enabledHistory: enabledHistory)
     {
     }
@@ -94,45 +13,49 @@ public class Arithmetic : Basic6Fun
         return "Arithmetic Calculator";
     }
 
-    public double? Solve(string equation)
+    public double Solve(string equation)
     {
-        List<Token>? tokens = ParseTokens(equation);
-        if (tokens == null) return null;
-        List<Token> RPN = InfixToRNC(tokens);
+        List<Token> tokens = ParseTokens(equation);
+        List<Token> RPN = InfixToRPN(tokens);
+        history.Pause();
         while (RPN.Count > 1)
         {
             for (int i = 0; i < RPN.Count; i++)
             {
-                Token token = RPN[i];
-                if (!token.IsOperator()) continue;
+                Token curr = RPN[i];
+                if (curr.GetType() == typeof(Operand)) continue;
+                Operator token = (Operator)curr;
                 Token newToken;
-                double a = RPN[i - 2].Value;
-                double b = RPN[i - 1].Value;
-                switch (token.Type)
+                Operand aO = (Operand)RPN[i - 2];
+                Operand bO = (Operand)RPN[i - 1];
+                if (aO.Value == null || bO.Value == null) throw new SolveException("VARIABLES ARE NOT SUPPORTED");
+                double a = (double) aO.Value;
+                double b = (double) bO.Value;
+                switch (token.Name)
                 {
-                    case Token.OP.ADD:
-                        newToken = new Token(Add(a, b));
+                    case "ADD":
+                        newToken = new Operand(Add(a, b));
                         break;
-                    case Token.OP.SUB:
-                        newToken = new Token(Subtract(a, b));
+                    case "SUBTRACT":
+                        newToken = new Operand(Subtract(a, b));
                         break;
-                    case Token.OP.MULT:
-                        newToken = new Token(Multiply(a, b));
+                    case "MULTIPLY":
+                        newToken = new Operand(Multiply(a, b));
                         break;
-                    case Token.OP.DIV:
-                        newToken = new Token(Divide(a, b));
+                    case "DIVIDE":
+                        newToken = new Operand(Divide(a, b));
                         break;
-                    case Token.OP.MOD:
-                        newToken = new Token(Mod((int)a, (int)b));
+                    case "MODULUS":
+                        newToken = new Operand(Mod((int)a, (int)b));
                         break;
-                    case Token.OP.POWER:
-                        newToken = new Token(Power(a, b));
+                    case "POWER":
+                        newToken = new Operand(Power(a, b));
                         break;
-                    case Token.OP.ROOT:
-                        newToken = new Token(Power(a, b));
+                    case "ROOT":
+                        newToken = new Operand(Root(a, b));
                         break;
                     default:
-                        return null;
+                        throw new SolveException("UNKNOWN TOKEN");
                 }
                 RPN.RemoveAt(i);
                 RPN.RemoveAt(i - 1);
@@ -140,12 +63,16 @@ public class Arithmetic : Basic6Fun
                 RPN[i]= newToken;
             }
         }
-        return RPN[0].Value;
+        history.Resume();
+        
+        Operand result = (Operand)RPN[0];
+        history.AddEntry(equation + " = " + result.Value.ToString());
+        if (result.Value == null) throw new SolveException("UNKNOWN ERROR");
+        return (double) result.Value;
     }
-    protected List<Token>? ParseTokens(string equation)
+    private List<Token> ParseTokens(string equation)
     {
         List<Token> tokens = new List<Token>();
-        bool status = true;
         int openParen = 0;
         Token token;
         for (int i = 0; i < equation.Length; i++)
@@ -155,92 +82,80 @@ public class Arithmetic : Basic6Fun
                 case char c when Char.IsDigit(c):
                 case '.':
                     string number = equation[i].ToString();
+                    bool decimalUsed = equation[i] == '.';
                     while (i + 1 < equation.Length)
                     {
+                        
                         if (!(equation[i + 1] == '.' || Char.IsDigit(equation[i + 1]))) break;
+                        if (decimalUsed && equation[i + 1] == '.') throw new ParserException("Multiple Decimals where used");
                         i++;
                         number += equation[i];
                     }
-                    token = new Token(number);
-                    tokens.Add(token);
-                    break;
-                case '+':
-                    token = new Token("+");
-                    tokens.Add(token);
-                    break;
-                case '-':
-                    token = new Token("-");
-                    tokens.Add(token);
-                    break;
-                case '*':
-                    token = new Token("*");
-                    tokens.Add(token);
-                    break;
-                case '/':
-                    token = new Token("/");
-                    tokens.Add(token);
-                    break;
-                case '%':
-                    token = new Token("%");
-                    tokens.Add(token);
-                    break;
-                case '^':
-                    token = new Token("^");
+
+                    token = new Operand(double.Parse(number));
                     tokens.Add(token);
                     break;
                 case '(':
-                    token = new Token("(");
+                    token = new Operator('(');
                     tokens.Add(token);
                     openParen++;
                     break;
                 case ')':
-                    token = new Token(")");
+                    token = new Operator(')');
                     tokens.Add(token);
                     openParen--;
+                    break;
+                case '+':
+                case '-':
+                case '*':
+                case '/':
+                case '%':
+                case '^':
+                    token = new Operator(equation[i]);
+                    tokens.Add(token);
                     break;
                 case 'R':
                     if (i + 3 < equation.Length)
                     {
                         if (equation[i + 1] == 'o' && equation[i + 2] == 'o' && equation[i + 3] == 't')
                         {
-                            token = new Token("Root");
+                            token = new Operator("Root");
                             tokens.Add(token);
                         }
-                        else status = false;
+                        else throw new ParserException("INVALID Function");
                     }
-                    else status = false;
+                    else throw new ParserException("INVALID FUNCTION");
                     break;
                 default:
                     break;
             }
-            if (!status) return null;
         }
-        if (openParen != 0) return null;
+        if (openParen != 0) throw new ParserException("PARENTHESIS NOT CLOSED");
         return tokens;
     }
 
     //Shunting yard Algorithm
     //Prase Dijstra
-    protected List<Token> InfixToRNC(List<Token> tokens)
+    protected List<Token> InfixToRPN(List<Token> tokens)
     {   
-        Stack<Token> operatorStack = new Stack<Token>();
+        Stack<Operator> operatorStack = new Stack<Operator>();
         List<Token> RPN = new List<Token>();
         foreach (Token token in tokens)
         {
-            if (!token.IsOperator())
+            if (token.GetType() == typeof(Operand))
             {
                 RPN.Add(token);
                 continue;
             }
-            else if (token.Type == Token.OP.LPAREN) 
+            else if (token.Name == "LPAREN") 
             {
-                operatorStack.Push(token);
+                operatorStack.Push((Operator)token);
                 continue;
             }
-            else if (token.Type == Token.OP.RPAREN)
+            else if (token.Name == "RPAREN")
             {
-                Token top = operatorStack.Peek();
-                while (top.Type != Token.OP.LPAREN)
+                Operator top = operatorStack.Peek();
+                while (!(top.Name == "LPAREN"))
                 {
                     RPN.Add(operatorStack.Pop());
                     top = operatorStack.Peek();
@@ -249,22 +164,32 @@ public class Arithmetic : Basic6Fun
             }
             else
             {
-                Token top;
-                if (operatorStack.Count == 0) operatorStack.Push(token);
+                Operator top;
+                Operator curr = (Operator) token;
+                if (operatorStack.Count == 0) operatorStack.Push(curr);
                 else
                 {
                     top = operatorStack.Peek();
-                    while (top.Type != Token.OP.LPAREN && ((token.Precedence < top.Precedence) || ((token.Precedence == top.Precedence) && token.Associativity == 'L')))
+                    while (!(top.Name == "LPAREN") && ((curr.Precedence <= top.Precedence) && curr.Associativity == 'L'))
                     {
                         RPN.Add(operatorStack.Pop());
                         if (operatorStack.Count == 0) break;
                         top = operatorStack.Peek();
                     }
-                    operatorStack.Push(token);
+                    operatorStack.Push(curr);
                 }
             }
         }
         while (operatorStack.Count > 0) RPN.Add(operatorStack.Pop());
         return RPN;
     }
+}
+
+class ParserException : Exception
+{
+    public ParserException(string message) : base(message) { }
+}
+class SolveException : Exception
+{
+    public SolveException(string message) : base(message) { }
 }
