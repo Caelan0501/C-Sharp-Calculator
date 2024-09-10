@@ -3,36 +3,38 @@ using System.Collections.Generic;
 
 public class History
 {
-    private List<String> history;
-    private bool enabled;
+    private List<string>? history;
+    private bool paused;
     private bool isChanged;
 
     public History(bool enabled = true)
     {
-        history = new List<String>();
-        this.enabled = enabled;
+        paused = false;
         isChanged = true;
+        if (enabled)
+        {
+            history = new List<string>();
+        }
     }
     public void Clear()
     {
-        history.Clear();
-        enabled = true;
+        if (history != null) history.Clear();
     }
     public void Resume()
     {
-        enabled = true;
+        paused = false;
     }
     public void Pause()
     {
-        enabled = false;
+        paused = true;
     }
     public bool IsEnabled()
     {
-        return enabled;
+        return history == null;
     }
     public void AddEntry(string entry)
     {
-        if (enabled)
+        if (!(history == null) && !paused)
         {
             history.Add(entry);
             isChanged = true;
@@ -45,6 +47,7 @@ public class History
     /// <returns>"{a} {operator} {b} = {result} \n" {next entry} ...</returns>
     public string ReadAll()
     {
+        if (history == null) return "";
         string result = "";
         foreach (string entry in history)
         {
@@ -57,6 +60,7 @@ public class History
     int recentcyIndex = 0;
     public string ReadRecent()
     {
+        if (history == null) return "";
         if (isChanged == true)
         {
             recentcyIndex = 0;

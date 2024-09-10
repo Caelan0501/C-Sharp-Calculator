@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class Basic4Fun
 {
-    //Constructor
     protected History history;
     public Basic4Fun(bool enabledHistory = true)
 	{
@@ -33,11 +32,13 @@ public class Basic4Fun
 	}
 	public int Divide(int a, int b)
 	{
+		if (b == 0) throw new DivideException("CANNOT DIVIDE BY ZERO");
         AddToHistory(a, '/', b, a / b);
         return a / b;
 	}
 	public int Mod(int a, int b)
 	{
+        if (b == 0) throw new ModulusException("CANNOT DIVIDE BY ZERO");
         AddToHistory(a, '%', b, a % b);
         return a % b;
 	}
@@ -60,6 +61,7 @@ public class Basic4Fun
 	}
 	public double Divide(double a, double b)
 	{
+        if (b == 0) throw new DivideException("CANNOT DIVIDE BY ZERO");
         AddToHistory(a, '/', b, a / b);
         return a / b;
 	}
@@ -82,6 +84,7 @@ public class Basic4Fun
 	}
 	public float Divide(float a, float b)
 	{
+        if (b == 0) throw new DivideException("CANNOT DIVIDE BY ZERO");
         AddToHistory(a, '/', b, a / b);
         return a / b;
 	}
@@ -111,8 +114,10 @@ public class Basic4Fun
     }
     public double Divide(string aS, string bS)
     {
+
         double a = Double.Parse(aS);
         double b = Double.Parse(bS);
+        if (b == 0) throw new DivideException("CANNOT DIVIDE BY ZERO");
         AddToHistory(a, '/', b, a / b);
         return (a / b);
     }
@@ -124,18 +129,19 @@ public class Basic4Fun
 		if (status)
 		{
             status = int.TryParse(bS, out b);
+            if (b == 0) throw new ModulusException("CANNOT DIVIDE BY ZERO");
         }
 		else
 		{
-			return null;
-		}
+            throw new ModulusException("CANNOT CONVERT STRING TO INT");
+        }
 		if (status)
 		{
             AddToHistory(a, '%', b, a % b);
             return a % b;
         }
-		return null;
-	}
+        throw new ModulusException("CANNOT CONVERT STRING TO INT");
+    }
 
 	protected void AddToHistory(int a, char op, int b, int result)
 	{
@@ -171,4 +177,12 @@ public class Basic4Fun
 	{
 		history.Resume();
 	}
+}
+ public class DivideException : Exception
+{
+	public DivideException(string message) : base(message) { }
+}
+public class ModulusException : Exception
+{
+	public ModulusException(string message) : base(message) { }
 }

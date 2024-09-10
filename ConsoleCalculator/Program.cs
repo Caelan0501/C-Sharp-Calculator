@@ -11,7 +11,7 @@ int option;
 do
 {
     status = int.TryParse(Console.ReadLine(), out option);
-    Console.WriteLine(status);
+    //Console.WriteLine(status);
     if (!status)
     {
         Console.WriteLine("Please Try Again");

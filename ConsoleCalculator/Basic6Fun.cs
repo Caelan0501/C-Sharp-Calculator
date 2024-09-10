@@ -51,17 +51,9 @@ public class Basic6Fun : Basic4Fun
     {
         double a = Double.Parse(aS);
         double b = Double.Parse(bS);
-        double result;
-        if (history.IsEnabled())
-        {
-            history.Pause();
-            result = Power(a, Divide(1, b));
-            history.Resume();
-        }
-        else
-        {
-            result = Power(a, Divide(1, b));
-        }
+        history.Pause();
+        double result = Power(a, Divide(1, b));
+        history.Resume();
         AddToHistory(a, '√', b, result);
         return result;
     }
