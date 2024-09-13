@@ -50,11 +50,13 @@ public class Operator : Token
                 Associativity = 'L';
                 break;
             case '*':
+            case '×':
                 Name = "MULTIPLY";
                 Precedence = 3;
                 Associativity = 'L';
                 break;
             case '/':
+            case '÷':
                 Name = "DIVIDE";
                 Precedence = 3;
                 Associativity = 'L';
@@ -68,6 +70,11 @@ public class Operator : Token
                 Name = "POWER";
                 Precedence = 4;
                 Associativity = 'R';
+                break;
+            case '√':
+                Name = "ROOT";
+                Precedence = 4;
+                Associativity = 'L';
                 break;
             case '(':
                 Name = "LPAREN";
