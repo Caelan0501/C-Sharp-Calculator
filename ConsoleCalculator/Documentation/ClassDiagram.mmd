@@ -76,18 +76,38 @@
         +Operator(string function)
     }
 
+    class Term{
+        +Token Left
+        +Token Right
+        +Operator op
+
+        +Term(Token Left, Token Right, Operator Op)
+        +GetTokenizedList() List~Token~
+        -GetTokenizedList(Term curr) IEnumerable~Token~
+    }
+
     class Arithmetic{
         +Arithmetic()
         +ToString()
         +Solve(string equation) double
         -ParseTokens(string equation) List~Token~
         #InfixToRPN(List~Token~) List~Token~
+    }
 
+    class Algerbra{
+        +Algerbra()
+        +ToString()
+        +Solve(string equation) double
+        +Simplify(string equation) string
+        #RPNToInfix(List~Token~) List~Token~
+        -ParseTokens(string equation) List~Token~
     }
 
     Token <|-- Operand
     Token <|-- Operator
+    Token <|-- Term
     Basic4fun <|-- Basic6fun
     Basic4fun *-- History
     Token <.. Arithmetic
     Basic6fun <|-- Arithmetic
+    Arithmetic <|-- Algerbra

@@ -5,15 +5,13 @@ using System.Runtime.CompilerServices;
 
 public class Arithmetic : Basic6Fun
 {
-    public Arithmetic(bool enabledHistory = true) :base(enabledHistory: enabledHistory)
-    {
-    }
+    public Arithmetic(bool enabledHistory = true) :base(enabledHistory: enabledHistory) { }
     public override string ToString()
     {
         return "Arithmetic Calculator";
     }
 
-    public double Solve(string equation)
+    public virtual double Solve(string equation)
     {
         List<Token> tokens = ParseTokens(equation);
         List<Token> RPN = InfixToRPN(tokens);
