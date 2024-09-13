@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Schema;
 
 
 public class Algerbra : Arithmetic
@@ -26,13 +27,11 @@ public class Algerbra : Arithmetic
                     bool decimalUsed = equation[i] == '.';
                     while (i + 1 < equation.Length)
                     {
-
                         if (!(equation[i + 1] == '.' || Char.IsDigit(equation[i + 1]))) break;
                         if (decimalUsed && equation[i + 1] == '.') throw new ParserException("Multiple Decimals where used");
                         i++;
                         number += equation[i];
                     }
-
                     token = new Operand(double.Parse(number));
                     tokens.Add(token);
                     break;
@@ -49,25 +48,32 @@ public class Algerbra : Arithmetic
                 case '+':
                 case '-':
                 case '*':
+                case '×':
                 case '/':
                 case '%':
+                case '√':
+                case '÷':
                 case '^':
                     token = new Operator(equation[i]);
                     tokens.Add(token);
                     break;
-                case 'R':
-                    if (i + 3 < equation.Length)
+                default:
+                    string s = "";
+                    int x = 0;
+                    while (char.IsLetter(equation[i + x]))
+                        s += equation[i + x];
+                    switch (s)
                     {
-                        if (equation[i + 1] == 'o' && equation[i + 2] == 'o' && equation[i + 3] == 't')
-                        {
+                        case "Root":
                             token = new Operator("Root");
                             tokens.Add(token);
-                        }
-                        else throw new ParserException("INVALID Function");
+                            break;
+                        default:
+                            token = new Operand(s);
+                            tokens.Add(token);
+                            break;
                     }
-                    else throw new ParserException("INVALID FUNCTION");
-                    break;
-                default:
+                    i = i + s.Length;
                     break;
             }
         }
@@ -80,7 +86,60 @@ public class Algerbra : Arithmetic
         //ParseTokens and convert to RPN
         List<Token> RPN = InfixToRPN(ParseTokens(equation));
         //Solve what we can
-
+        for(int i = RPN.Count -1; i >= 0; i--)
+        {
+            if (i >= RPN.Count) continue;
+            Token curr = RPN[i];
+            if (curr.GetType() != typeof(Operator)) continue;
+            Operator token = (Operator)curr;
+            Token a = RPN[i - 2];
+            Token b = RPN[i - 1];
+            if (a.GetType() == typeof(Operand) && b.GetType() == typeof(Operand))
+            {
+                Operand OperandA = (Operand)a;
+                Operand OperandB = (Operand)b;
+                if (OperandA.Value != null && OperandB.Value != null)
+                {
+                    double aVal = (double) OperandA.Value;
+                    double bVal = (double)OperandA.Value;
+                    Operand operand;
+                    switch (token.Name)
+                    {
+                        case "ADD":
+                            operand = new Operand(Add(aVal, bVal));
+                            break;
+                        case "SUBTRACT":
+                            operand = new Operand(Subtract(aVal, bVal));
+                            break;
+                        case "MULTIPLY":
+                            operand = new Operand(Multiply(aVal, bVal));
+                            break;
+                        case "DIVIDE":
+                            operand = new Operand(Divide(aVal, bVal));
+                            break;
+                        case "MODULUS":
+                            operand = new Operand(Mod((int)aVal, (int)bVal));
+                            break;
+                        case "POWER":
+                            operand = new Operand(Power(aVal, bVal));
+                            break;
+                        case "ROOT":
+                            operand = new Operand(Root(aVal, bVal));
+                            break;
+                        default:
+                            throw new SolveException("UNKNOWN TOKEN");
+                    }
+                    RPN.RemoveAt(i);
+                    RPN.RemoveAt(i - 1);
+                    RPN[i - 2] = operand;
+                    continue;
+                }
+            }
+            Term term = new Term(a, b, token);
+            RPN.RemoveAt(i);
+            RPN.RemoveAt(i - 1);
+            RPN[i-2] = term;
+        }
         //Convert back to Infix
         List<Token> Infix = RPNToInfix(RPN);
         //Convert to String
