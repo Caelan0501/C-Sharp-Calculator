@@ -1,4 +1,6 @@
 ﻿using Microsoft.VisualBasic.FileIO;
+using System.Data.SqlTypes;
+using System;
 
 Console.WriteLine("Welcome to the ConsoleCalculator interface");
 Console.WriteLine("--------------------------------------------------------------------------");
@@ -16,336 +18,100 @@ do
         Console.WriteLine("Please Try Again");
     }
 } while (!(status && (option > 0 && option <= 3)));
-
 Console.WriteLine("Starting Calculator");
+dynamic Calculator = "Not Assigned to a calculator";
+bool repeat = false;
+do
+{
+    repeat = false;
+    switch (option)
+    {
+        case 1:
+            Calculator = new Basic4Fun();
+            break;
+        case 2:
+            Calculator = new Basic6Fun();
+            break;
+        case 3:
+            Calculator = new Arithmetic();
+            break;
+        case 4:
+            Calculator = new Algerbra();
+            break;
+        default:
+            Console.WriteLine("ERROR");
+            repeat = true;
+            break;
+    }
+} while (repeat);
 Console.WriteLine("--------------------------------------------------------------------------");
 bool end = false;
-switch (option)
+do
 {
-    case 1:
-        Basic4Fun basic4fun = new Basic4Fun();
-        do
+    string? input = Console.ReadLine();
+    if (input == null) continue;
+    string s = input;
+    s = s.ToUpper();
+    if (s.Any(Char.IsDigit))
+    {
+        string[] targets = { "+", "-", "*", "/", "%", "^", "ROOT" };
+        int[] targetsCount = new int[targets.Length];
+        foreach(string target in targets)
         {
-            string? input = Console.ReadLine();
-            switch (input)
+            int index = 0;
+            int count = 0;
+            while ((index = input.IndexOf(target, index)) != -1)
             {
-                case "Help":
-                case "help":
-                case "HELP":
-                    Console.WriteLine("To use please input your Equation in the following format: {a} {operator} {b}");
-                    Console.WriteLine("ReadRecentHistory - Read the lastest History, Repeated use will backtrack further");
-                    Console.WriteLine("ReadAllHistory - Read All History from youngest to oldest");
-                    Console.WriteLine("Quit - End the program");
-                    break;
-                case "Quit":
-                case "quit":
-                case "QUIT":
-                    end = true;
-                    break;
-                case string s when Char.IsDigit(s[0]):
-                    string[] parts;
-                    if (input.Contains(' '))
-                    {
-                        parts = input.Split(' ');
-                    }
-                    else if(input.Contains('+'))
-                    {
-                        parts = input.Split('+');
-                        Array.Resize(ref parts, 3);
-                        parts[2] = parts[1];
-                        parts[1] = "+";
-                    }
-                    else if (input.Contains('-'))
-                    {
-                        parts = input.Split('-');
-                        Array.Resize(ref parts, 3);
-                        parts[2] = parts[1];
-                        parts[1] = "-";
-                    }
-                    else if (input.Contains('*'))
-                    {
-                        parts = input.Split('*');
-                        Array.Resize(ref parts, 3);
-                        parts[2] = parts[1];
-                        parts[1] = "*";
-                    }
-                    else if (input.Contains('/'))
-                    {
-                        parts = input.Split('/');
-                        Array.Resize(ref parts, 3);
-                        parts[2] = parts[1];
-                        parts[1] = "/";
-                    }
-                    else if (input.Contains('%'))
-                    {
-                        parts = input.Split('%');
-                        Array.Resize(ref parts, 3);
-                        parts[2] = parts[1];
-                        parts[1] = "%";
-                        }
-                    else
-                    {
-                        Console.WriteLine("Error: Improper Syntax");
-                        break;
-                    }
-                    string a = parts[0];
-                    string op = parts[1];
-                    string b = parts[2];
-                    switch (op)
-                    {
-                        case "+":
-                            Console.WriteLine(basic4fun.Add(Double.Parse(a), Double.Parse(b)));
-                            break;
-                        case "-":
-                            Console.WriteLine(basic4fun.Subtract(Double.Parse(a), Double.Parse(b)));
-                            break;
-                        case "*":
-                            Console.WriteLine(basic4fun.Multiply(Double.Parse(a), Double.Parse(b)));
-                            break;
-                        case "/":
-                            Console.WriteLine(basic4fun.Divide(Double.Parse(a), Double.Parse(b)));
-                            break;
-                        case "%":
-                            Console.WriteLine(basic4fun.Mod(int.Parse(a), int.Parse(b)));
-                            break;
-                        default:
-                            Console.WriteLine("Error: Improper Syntax");
-                            break;
-                    }
-                    break;
-                case "GetAllHistory":
-                case "GETALLHISTORY":
-                case "getallhistory":
-                    Console.WriteLine(basic4fun.GetAllHistory());
-                    break;
-                case "GetRecentHistory":
-                case "getrecenthistory":
-                case "GETRECENTHISTORY":
-                    Console.WriteLine(basic4fun.GetRecentHistory());
-                    break;
-                case "ResumeHistory":
-                case "resumehistory":
-                case "RESUMEHISTORY":
-                    basic4fun.ResumeHistory();
-                    Console.WriteLine("History Resumed");
-                    break;
-                case "PauseHistory":
-                case "pausehistory":
-                case "PAUSEHISTORY":
-                    basic4fun.PauseHistory();
-                    Console.WriteLine("History Paused");
-                    break;
-                case "ClearHistory":
-                case "clearhistory":
-                case "CLEARHISTORY":
-                    basic4fun.ClearHistory();
-                    Console.WriteLine("History Cleared");
-                    break;
-                default:
-                    break;
+                count++;
+                index += target.Length;
             }
-        } while (!end);
-        break;
-    case 2:
-        Basic6Fun basic6fun = new Basic6Fun();
-        do
+        }
+        //Work in Progress
+        /*
+        bool OneOpFound = false;
+        string op = "";
+        foreach(int count in targetsCount)
         {
-            string? input = Console.ReadLine();
-            switch (input)
+            if(count == 1)
             {
-                case "Help":
-                case "help":
-                case "HELP":
-                    Console.WriteLine("To use please input your Equation in the following format: {a} {operator} {b}");
-                    Console.WriteLine("ReadRecentHistory - Read the lastest History, Repeated use will backtrack further");
-                    Console.WriteLine("ReadAllHistory - Read All History from youngest to oldest");
-                    Console.WriteLine("Quit - End the program");
-                    break;
-                case "Quit":
-                case "quit":
-                case "QUIT":
-                    end = true;
-                    break;
-                case string s when Char.IsDigit(s[0]):
-                    string[] parts;
-                    if (input.Contains(' '))
-                    {
-                        parts = input.Split(' ');
-                    }
-                    else if (input.Contains('+'))
-                    {
-                        parts = input.Split('+');
-                        Array.Resize(ref parts, 3);
-                        parts[2] = parts[1];
-                        parts[1] = "+";
-                    }
-                    else if (input.Contains('-'))
-                    {
-                        parts = input.Split('-');
-                        Array.Resize(ref parts, 3);
-                        parts[2] = parts[1];
-                        parts[1] = "-";
-                    }
-                    else if (input.Contains('*'))
-                    {
-                        parts = input.Split('*');
-                        Array.Resize(ref parts, 3);
-                        parts[2] = parts[1];
-                        parts[1] = "*";
-                    }
-                    else if (input.Contains('/'))
-                    {
-                        parts = input.Split('/');
-                        Array.Resize(ref parts, 3);
-                        parts[2] = parts[1];
-                        parts[1] = "/";
-                    }
-                    else if (input.Contains('%'))
-                    {
-                        parts = input.Split('%');
-                        Array.Resize(ref parts, 3);
-                        parts[2] = parts[1];
-                        parts[1] = "%";
-                    }
-                    else if (input.Contains('^'))
-                    {
-                        parts = input.Split('^');
-                        Array.Resize(ref parts, 3);
-                        parts[2] = parts[1];
-                        parts[1] = "^";
-                    }
-                    else if (input.Contains("Root"))
-                    {
-                        parts = input.Split("Root");
-                        Array.Resize(ref parts, 3);
-                        parts[2] = parts[1];
-                        parts[1] = "Root";
-                    }
-                    else
-                    {
-                        Console.WriteLine("Error: Improper Syntax");
-                        break;
-                    }
-                    string a = parts[0];
-                    string op = parts[1];
-                    string b = parts[2];
-                    switch (op)
-                    {
-                        case "+":
-                            Console.WriteLine(basic6fun.Add(a, b));
-                            break;
-                        case "-":
-                            Console.WriteLine(basic6fun.Subtract(a, b));
-                            break;
-                        case "*":
-                            Console.WriteLine(basic6fun.Multiply(a, b));
-                            break;
-                        case "/":
-                            Console.WriteLine(basic6fun.Divide(a, b));
-                            break;
-                        case "%":
-                            Console.WriteLine(basic6fun.Mod(a, b));
-                            break;
-                        case "^":
-                            Console.WriteLine(basic6fun.Power(a, b));
-                            break;
-                        case "Root":
-                            Console.WriteLine(basic6fun.Root(a, b));
-                            break;
-                        default:
-                            Console.WriteLine("Error: Improper Syntax");
-                            break;
-                    }
-                    break;
-                case "GetAllHistory":
-                case "GETALLHISTORY":
-                case "getallhistory":
-                    Console.WriteLine(basic6fun.GetAllHistory());
-                    break;
-                case "GetRecentHistory":
-                case "getrecenthistory":
-                case "GETRECENTHISTORY":
-                    Console.WriteLine(basic6fun.GetRecentHistory());
-                    break;
-                case "ResumeHistory":
-                case "resumehistory":
-                case "RESUMEHISTORY":
-                    basic6fun.ResumeHistory();
-                    Console.WriteLine("History Resumed");
-                    break;
-                case "PauseHistory":
-                case "pausehistory":
-                case "PAUSEHISTORY":
-                    basic6fun.PauseHistory();
-                    Console.WriteLine("History Paused");
-                    break;
-                case "ClearHistory":
-                case "clearhistory":
-                case "CLEARHISTORY":
-                    basic6fun.ClearHistory();
-                    Console.WriteLine("History Cleared");
-                    break;
-                default:
-                    break;
+                OneOpFound = true;
+                op = 
             }
-        } while (!end);
-        break;
-    case 3:
-        Arithmetic arithmetic = new Arithmetic();
-        do
-        {
-            string? input = Console.ReadLine();
-            switch (input)
-            {
-                case "Help":
-                case "help":
-                case "HELP":
-                    Console.WriteLine("To use please input your Equation in the following format: {a} {operator} {b}");
-                    Console.WriteLine("ReadRecentHistory - Read the lastest History, Repeated use will backtrack further");
-                    Console.WriteLine("ReadAllHistory - Read All History from youngest to oldest");
-                    Console.WriteLine("Quit - End the program");
-                    break;
-                case "Quit":
-                case "quit":
-                case "QUIT":
-                    end = true;
-                    break;
-                case string s when Char.IsDigit(s[0]):
-                    Console.WriteLine(arithmetic.Solve(s));
-                    break;
-                case "GetAllHistory":
-                case "GETALLHISTORY":
-                case "getallhistory":
-                    Console.WriteLine(arithmetic.GetAllHistory());
-                    break;
-                case "GetRecentHistory":
-                case "getrecenthistory":
-                case "GETRECENTHISTORY":
-                    Console.WriteLine(arithmetic.GetRecentHistory());
-                    break;
-                case "ResumeHistory":
-                case "resumehistory":
-                case "RESUMEHISTORY":
-                    arithmetic.ResumeHistory();
-                    Console.WriteLine("History Resumed");
-                    break;
-                case "PauseHistory":
-                case "pausehistory":
-                case "PAUSEHISTORY":
-                    arithmetic.PauseHistory();
-                    Console.WriteLine("History Paused");
-                    break;
-                case "ClearHistory":
-                case "clearhistory":
-                case "CLEARHISTORY":
-                    arithmetic.ClearHistory();
-                    Console.WriteLine("History Cleared");
-                    break;
-                default:
-                    break;
-            }
-        } while (!end);
-        break;
-    default:
-        break;
-}
+        }
+        */
+    }
+    switch (s)
+    {
+        case "":
+            break;
+        case "HELP":
+            Console.WriteLine("To use please input your Equation in the following format: {a} {operator} {b}");
+            Console.WriteLine("ReadRecentHistory - Read the lastest History, Repeated use will backtrack further");
+            Console.WriteLine("ReadAllHistory - Read All History from youngest to oldest");
+            Console.WriteLine("Quit - End the program");
+            break;
+        case "QUIT":
+            end = true;
+            break;
+        case "GETALLHISTORY":
+            Console.WriteLine(Calculator.GetAllHistory());
+            break;
+        case "GETRECENTHISTORY":
+            Console.WriteLine(Calculator.GetRecentHistory());
+            break;
+        case "RESUMEHISTORY":
+            Calculator.ResumeHistory();
+            Console.WriteLine("History Resumed");
+            break;
+        case "PAUSEHISTORY":
+            Calculator.PauseHistory();
+            Console.WriteLine("History Paused");
+            break;
+        case "CLEARHISTORY":
+            Calculator.ClearHistory();
+            Console.WriteLine("History Cleared");
+            break;
+        default:
+            break;
+    }
+} while (!end);

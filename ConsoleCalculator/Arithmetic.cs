@@ -16,54 +16,49 @@ public class Arithmetic : Basic6Fun
         List<Token> tokens = ParseTokens(equation);
         List<Token> RPN = InfixToRPN(tokens);
         history.Pause();
-        while (RPN.Count > 1)
+        Stack<Token> stack = new Stack<Token>();
+        foreach (Token token in RPN)
         {
-            for (int i = 0; i < RPN.Count; i++)
+            if (token.GetType() == typeof(Operand))
             {
-                Token curr = RPN[i];
-                if (curr.GetType() == typeof(Operand)) continue;
-                Operator token = (Operator)curr;
-                Token newToken;
-                Operand aO = (Operand)RPN[i - 2];
-                Operand bO = (Operand)RPN[i - 1];
-                if (aO.Value == null || bO.Value == null) throw new SolveException("VARIABLES ARE NOT SUPPORTED");
-                double a = (double) aO.Value;
-                double b = (double) bO.Value;
-                switch (token.Name)
-                {
-                    case "ADD":
-                        newToken = new Operand(Add(a, b));
-                        break;
-                    case "SUBTRACT":
-                        newToken = new Operand(Subtract(a, b));
-                        break;
-                    case "MULTIPLY":
-                        newToken = new Operand(Multiply(a, b));
-                        break;
-                    case "DIVIDE":
-                        newToken = new Operand(Divide(a, b));
-                        break;
-                    case "MODULUS":
-                        newToken = new Operand(Mod((int)a, (int)b));
-                        break;
-                    case "POWER":
-                        newToken = new Operand(Power(a, b));
-                        break;
-                    case "ROOT":
-                        newToken = new Operand(Root(a, b));
-                        break;
-                    default:
-                        throw new SolveException("UNKNOWN TOKEN");
-                }
-                RPN.RemoveAt(i);
-                RPN.RemoveAt(i - 1);
-                i = i - 2;
-                RPN[i]= newToken;
+                stack.Push(token);
+                continue;
+            }
+            Operator op = (Operator) token;
+            Operand b = (Operand) stack.Pop();
+            Operand a = (Operand) stack.Pop();
+            if (a.Value == null || b.Value == null) throw new SolveException("Variables not suported");
+            double aVal = (double) a.Value;
+            double bVal = (double) b.Value;
+            switch (op.Name)
+            {
+                case "ADD":
+                    stack.Push(new Operand(Add(aVal, bVal)));
+                    break;
+                case "SUBTRACT":
+                    stack.Push(new Operand(Subtract(aVal, bVal)));
+                    break;
+                case "MULTIPLY":
+                    stack.Push(new Operand(Multiply(aVal, bVal)));
+                    break;
+                case "DIVIDE":
+                    stack.Push(new Operand(Divide(aVal, bVal)));
+                    break;
+                case "MODULUS":
+                    stack.Push(new Operand(Mod((int)aVal, (int)bVal)));
+                    break;
+                case "POWER":
+                    stack.Push(new Operand(Power(aVal, bVal)));
+                    break;
+                case "ROOT":
+                    stack.Push(new Operand(Root(aVal, bVal)));
+                    break;
+                default:
+                    throw new SolveException("UNKNOWN TOKEN");
             }
         }
         history.Resume();
-        
-        Operand result = (Operand)RPN[0];
+        Operand result = (Operand)stack.Pop();
         history.AddEntry(equation + " = " + result.Value.ToString());
         if (result.Value == null) throw new SolveException("UNKNOWN ERROR");
         return (double) result.Value;
