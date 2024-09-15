@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Schema;
 
@@ -86,65 +87,66 @@ public class Algerbra : Arithmetic
         //ParseTokens and convert to RPN
         List<Token> RPN = InfixToRPN(ParseTokens(equation));
         //Solve what we can
-        for(int i = RPN.Count -1; i >= 0; i--)
+        Stack<Token> stack = new Stack<Token>();
+        foreach (Token token in RPN)
         {
-            if (i >= RPN.Count) continue;
-            Token curr = RPN[i];
-            if (curr.GetType() != typeof(Operator)) continue;
-            Operator token = (Operator)curr;
-            Token a = RPN[i - 2];
-            Token b = RPN[i - 1];
+            if (token.GetType() != typeof(Operator))
+            {
+                stack.Push(token);
+                continue;
+            }
+            Operator op = (Operator)token;
+            Token b = stack.Pop();
+            Token a = stack.Pop();
             if (a.GetType() == typeof(Operand) && b.GetType() == typeof(Operand))
             {
-                Operand OperandA = (Operand)a;
-                Operand OperandB = (Operand)b;
-                if (OperandA.Value != null && OperandB.Value != null)
+                Operand aO = (Operand)a;
+                Operand bO = (Operand)b;
+                if(aO.Value != null && bO.Value != null)
                 {
-                    double aVal = (double) OperandA.Value;
-                    double bVal = (double)OperandA.Value;
-                    Operand operand;
-                    switch (token.Name)
+                    double aVal = (double) aO.Value;
+                    double bVal = (double) bO.Value;
+                    switch (op.Name)
                     {
                         case "ADD":
-                            operand = new Operand(Add(aVal, bVal));
+                            stack.Push(new Operand(Add(aVal, bVal)));
                             break;
                         case "SUBTRACT":
-                            operand = new Operand(Subtract(aVal, bVal));
+                            stack.Push(new Operand(Subtract(aVal, bVal)));
                             break;
                         case "MULTIPLY":
-                            operand = new Operand(Multiply(aVal, bVal));
+                            stack.Push(new Operand(Multiply(aVal, bVal)));
                             break;
                         case "DIVIDE":
-                            operand = new Operand(Divide(aVal, bVal));
+                            stack.Push(new Operand(Divide(aVal, bVal)));
                             break;
                         case "MODULUS":
-                            operand = new Operand(Mod((int)aVal, (int)bVal));
+                            stack.Push(new Operand(Mod((int)aVal, (int)bVal)));
                             break;
                         case "POWER":
-                            operand = new Operand(Power(aVal, bVal));
+                            stack.Push(new Operand(Power(aVal, bVal)));
                             break;
                         case "ROOT":
-                            operand = new Operand(Root(aVal, bVal));
+                            stack.Push(new Operand(Root(aVal, bVal)));
                             break;
                         default:
                             throw new SolveException("UNKNOWN TOKEN");
                     }
-                    RPN.RemoveAt(i);
-                    RPN.RemoveAt(i - 1);
-                    RPN[i - 2] = operand;
-                    continue;
                 }
             }
-            Term term = new Term(a, b, token);
-            RPN.RemoveAt(i);
-            RPN.RemoveAt(i - 1);
-            RPN[i-2] = term;
+            stack.Push(new Term(a, b, op));
         }
-        //Convert back to Infix
-        List<Token> Infix = RPNToInfix(RPN);
-        //Convert to String
+        Token result = stack.Pop();
+        if (result.GetType() == typeof(Operand))
+        {
+            return result.Name;
+        }
+        Term term = (Term)result;
 
-        return ""; //Placeholder
+        List<Token> Infix = term.GetTokenizedList();
+        //Convert to String
+        string simplified = term.Name;
+        return simplified; //Placeholder
     }
 
     public override double Solve(string equation) 
