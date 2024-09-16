@@ -115,16 +115,16 @@
         {
             string[] simple = s.Split(op);
             double a = double.Parse(simple[0]);
-            double b = double.Parse(simple[2]);
+            double b = double.Parse(simple[1]);
             singleOperationSolver(Calculator, a, b, op);
         }
         else if (Calculator.GetType() == typeof(Arithmetic))
         {
-            Calculator.Solve(s);
+            Console.WriteLine(Calculator.Solve(s).ToString());
         }
         else if (Calculator.GetType() == typeof(Algerbra))
         {
-            Calculator.Simplify(s);
+            Console.WriteLine(Calculator.Simplify(s).ToString());
         }
         else
         {
@@ -147,7 +147,14 @@
                     Console.WriteLine(Calculator.Multiply(a, b).ToString());
                     break;
                 case "/":
-                    Console.WriteLine(Calculator.Divide(a, b).ToString());
+                    try
+                    {
+                        Console.WriteLine(Calculator.Divide(a, b).ToString());
+                    }
+                    catch (DivideException ex)
+                    {
+                        Console.WriteLine($"{ex.Message}");
+                    }
                     break;
                 case "%":
                     Console.WriteLine(Calculator.Mod((int)a, (int)b).ToString());

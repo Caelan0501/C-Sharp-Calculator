@@ -36,6 +36,8 @@ public class Algerbra : Arithmetic
                     token = new Operand(double.Parse(number));
                     tokens.Add(token);
                     break;
+                case char c when Char.IsWhiteSpace(c):
+                    break;
                 case '(':
                     token = new Operator('(');
                     tokens.Add(token);
@@ -62,7 +64,10 @@ public class Algerbra : Arithmetic
                     string s = "";
                     int x = 0;
                     while (char.IsLetter(equation[i + x]))
+                    {
                         s += equation[i + x];
+                        x++;
+                    }   
                     switch (s)
                     {
                         case "Root":
@@ -132,6 +137,7 @@ public class Algerbra : Arithmetic
                         default:
                             throw new SolveException("UNKNOWN TOKEN");
                     }
+                    continue;
                 }
             }
             stack.Push(new Term(a, b, op));
@@ -144,8 +150,46 @@ public class Algerbra : Arithmetic
         Term term = (Term)result;
 
         List<Token> Infix = term.GetTokenizedList();
+
+        string simplified = "";
+        foreach (Token token in Infix)
+        {
+            switch(token.Name)
+            {
+                case "LPAREN":
+                    simplified += "(";
+                    break;
+                case "RPAREN":
+                    simplified += ")";
+                    break;
+                case "ADD":
+                    simplified += "+";
+                    break;
+                case "SUBTRACT":
+                    simplified += "-";
+                    break;
+                case "MULTIPLY":
+                    simplified += "*";
+                    break;
+                case "DIVIDE":
+                    simplified += "/";
+                    break;
+                case "MODULUS":
+                    simplified += "%";
+                    break;
+                case "POWER":
+                    simplified += "^";
+                    break;
+                case "ROOT":
+                    simplified += "√";
+                    break;
+                default:
+                    simplified += token.Name;
+                    break;
+            }
+        }
         //Convert to String
-        string simplified = term.Name;
+        
         return simplified; //Placeholder
     }
 
