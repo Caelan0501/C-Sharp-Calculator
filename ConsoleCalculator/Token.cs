@@ -170,7 +170,7 @@ public class Term : Token
         }
         else throw new TermException("MISPLACED OPERATOR");
 
-        tokens.Add(Op);
+        tokens.Add(curr.Op);
 
         if (curr.Right.GetType() == typeof(Operand)) tokens.Add(curr.Right);
         else if (curr.Right.GetType() == typeof(Term))
