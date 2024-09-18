@@ -2,6 +2,11 @@
 {
     public static void Main(string[] args)
     {
+        //Test Section
+        //MathNet.Numerics.FindRoots
+
+
+
         dynamic Calculator = Init_Calculator();
         bool end = false;
         do
@@ -98,7 +103,7 @@
     }
     private static void UseCalculator(dynamic Calculator, string s)
     {
-        string[] targets = { "+", "-", "*", "/", "%", "^", "ROOT" };
+        string[] targets = { "+", "-", "*", "/", "%", "^", "ROOT", "=" };
         int opCount = 0;
         string op = "";
         foreach (string target in targets)
@@ -124,7 +129,14 @@
         }
         else if (Calculator.GetType() == typeof(Algerbra))
         {
-            Console.WriteLine(Calculator.Simplify(s).ToString());
+            if (s.Contains('='))
+            {
+                Console.WriteLine(Calculator.Solve(s).ToString());
+            }
+            else
+            {
+                Console.WriteLine(Calculator.Simplify(s).ToString());
+            }
         }
         else
         {
@@ -171,7 +183,7 @@
         }
         catch (Microsoft.CSharp.RuntimeBinder.RuntimeBinderException ex)
         {
-            Console.WriteLine("OPERATION NOT SUPPORTED");
+            Console.WriteLine("OPERATION NOT SUPPORTED: " + ex);
         }
         
     }

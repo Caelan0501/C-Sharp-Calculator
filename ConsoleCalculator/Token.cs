@@ -10,7 +10,81 @@ public abstract class Token
     public string Name;
     public Token()
     {
-        Name = "ERROR";
+        Name = "UNDEFINED";
+    }
+    public static List<Token> ParseEquation(string equation)
+    {
+        List<Token> tokens = new List<Token>();
+        int openParen = 0;
+        Token token;
+        for (int i = 0; i < equation.Length; i++)
+        {
+            switch (equation[i])
+            {
+                case char c when Char.IsWhiteSpace(c):
+                    break;
+                case '(':
+                    token = new Operator('(');
+                    tokens.Add(token);
+                    openParen++;
+                    break;
+                case ')':
+                    token = new Operator(')');
+                    tokens.Add(token);
+                    openParen--;
+                    break;
+                case '+':
+                case '-':
+                case '*':
+                case '×':
+                case '/':
+                case '%':
+                case '√':
+                case '÷':
+                case '^':
+                    token = new Operator(equation[i]);
+                    tokens.Add(token);
+                    break;
+                case char c when Char.IsDigit(c):
+                case '.':
+                    string number = equation[i].ToString();
+                    bool decimalUsed = equation[i] == '.';
+                    while (i + 1 < equation.Length)
+                    {
+                        if (!(equation[i + 1] == '.' || Char.IsDigit(equation[i + 1]))) break;
+                        if (decimalUsed && equation[i + 1] == '.') throw new ParserException("Multiple Decimals where used");
+                        i++;
+                        number += equation[i];
+                    }
+                    token = new Operand(double.Parse(number));
+                    tokens.Add(token);
+                    break;
+                default:
+                    string s = "";
+                    int x = 0;
+                    while (char.IsLetter(equation[i + x]))
+                    {
+                        s += equation[i + x];
+                        if (i + x + 1 >= equation.Length) break;
+                        x++;
+                    }
+                    switch (s)
+                    {
+                        case "Root":
+                            token = new Operator("Root");
+                            tokens.Add(token);
+                            break;
+                        default:
+                            token = new Operand(s);
+                            tokens.Add(token);
+                            break;
+                    }
+                    i = i + s.Length - 1;
+                    break;
+            }
+        }
+        if (openParen != 0) throw new ParserException("PARENTHESIS NOT CLOSED");
+        return tokens;
     }
 }
 
@@ -34,6 +108,7 @@ public class Operator : Token
 {
     public int Precedence = -1;
     public char Associativity = 'N';
+    public string ShortName;
 
     public Operator(char symbol)
     {
@@ -41,49 +116,59 @@ public class Operator : Token
         {
             case '+':
                 Name = "ADD";
+                ShortName = "+";
                 Precedence = 2;
                 Associativity = 'L';
                 break;
             case '-':
                 Name = "SUBTRACT";
+                ShortName = "-";
                 Precedence = 2;
                 Associativity = 'L';
                 break;
             case '*':
             case '×':
                 Name = "MULTIPLY";
+                ShortName = "*";
                 Precedence = 3;
                 Associativity = 'L';
                 break;
             case '/':
             case '÷':
                 Name = "DIVIDE";
+                ShortName = "/";
                 Precedence = 3;
                 Associativity = 'L';
                 break;
             case '%':
                 Name = "MODULUS";
+                ShortName = "%";
                 Precedence = 3;
                 Associativity = 'L';
                 break;
             case '^':
                 Name = "POWER";
+                ShortName = "^";
                 Precedence = 4;
                 Associativity = 'R';
                 break;
             case '√':
                 Name = "ROOT";
+                ShortName = "√";
                 Precedence = 4;
                 Associativity = 'L';
                 break;
             case '(':
                 Name = "LPAREN";
+                ShortName = "(";
                 break;
             case ')':
                 Name = "RPAREN";
+                ShortName = ")";
                 break;
             default:
                 Name = "ERROR";
+                ShortName = "E";
                 break;
         }
     }
@@ -95,11 +180,13 @@ public class Operator : Token
         {
             case "ROOT":
                 Name = "ROOT";
+                ShortName = "√";
                 Precedence = 4;
                 Associativity = 'L';
                 break;
             default:
                 Name = "ERROR";
+                ShortName = "E";
                 break;
         }
     }
@@ -110,7 +197,7 @@ public class Term : Token
     public Token Left;
     public Token Right;
     public Operator Op;
-    public Term(Token Left, Token Right, Operator Op)//Requires testing
+    public Term(Token Left, Token Right, Operator Op)
     {
         if (Left.GetType() == typeof(Term)) Name = "(" + Left.Name + ")";
         else Name = Left.Name;
@@ -123,15 +210,11 @@ public class Term : Token
         this.Op = Op;
     }
 
-    //Base Function
     public List<Token> GetTokenizedList()
     {
         
         List<Token> tokens = new List<Token>();
-        if (Left.GetType() == typeof(Operand))
-        {
-            tokens.Add(Left);
-        }
+        if (Left.GetType() == typeof(Operand)) tokens.Add(Left);
         else if (Left.GetType() == typeof(Term))
         {
             tokens.Add(new Operator('('));
@@ -142,10 +225,7 @@ public class Term : Token
 
         tokens.Add(Op);
 
-        if (Right.GetType() == typeof(Operand))
-        {
-            tokens.Add(Right);
-        }
+        if (Right.GetType() == typeof(Operand)) tokens.Add(Right);
         else if (Right.GetType() == typeof(Term))
         {
             tokens.Add(new Operator('('));
@@ -156,7 +236,6 @@ public class Term : Token
 
         return tokens;
     }
-    //Recursive Function
     private IEnumerable<Token> GetTokenizedList(Term curr)
     {
         List<Token> tokens = new List<Token> ();
@@ -179,7 +258,6 @@ public class Term : Token
             tokens.AddRange(GetTokenizedList((Term)curr.Right));
             tokens.Add(new Operator(')'));
         }
-
         else throw new TermException("MISPLACED OPERATOR");
 
         return tokens;
