@@ -11,12 +11,11 @@ public class Arithmetic : Basic6Fun
         return "Arithmetic Calculator";
     }
 
-    public virtual double Solve(string equation)
+    public double Solve(string equation)
     {
-        List<Token> tokens = ParseTokens(equation);
-        List<Token> RPN = InfixToRPN(tokens);
-        history.Pause();
+        List<Token> RPN = InfixToRPN(Token.ParseEquation(equation));
         Stack<Token> stack = new Stack<Token>();
+        history.Pause();
         foreach (Token token in RPN)
         {
             if (token.GetType() == typeof(Operand))
@@ -62,69 +61,6 @@ public class Arithmetic : Basic6Fun
         history.AddEntry(equation + " = " + result.Value.ToString());
         if (result.Value == null) throw new SolveException("UNKNOWN ERROR");
         return (double) result.Value;
-    }
-    private List<Token> ParseTokens(string equation)
-    {
-        List<Token> tokens = new List<Token>();
-        int openParen = 0;
-        Token token;
-        for (int i = 0; i < equation.Length; i++)
-        {
-            switch (equation[i])
-            {
-                case char c when Char.IsDigit(c):
-                case '.':
-                    string number = equation[i].ToString();
-                    bool decimalUsed = equation[i] == '.';
-                    while (i + 1 < equation.Length)
-                    {
-                        
-                        if (!(equation[i + 1] == '.' || Char.IsDigit(equation[i + 1]))) break;
-                        if (decimalUsed && equation[i + 1] == '.') throw new ParserException("Multiple Decimals where used");
-                        i++;
-                        number += equation[i];
-                    }
-
-                    token = new Operand(double.Parse(number));
-                    tokens.Add(token);
-                    break;
-                case '(':
-                    token = new Operator('(');
-                    tokens.Add(token);
-                    openParen++;
-                    break;
-                case ')':
-                    token = new Operator(')');
-                    tokens.Add(token);
-                    openParen--;
-                    break;
-                case '+':
-                case '-':
-                case '*':
-                case '/':
-                case '%':
-                case '^':
-                    token = new Operator(equation[i]);
-                    tokens.Add(token);
-                    break;
-                case 'R':
-                    if (i + 3 < equation.Length)
-                    {
-                        if (equation[i + 1] == 'o' && equation[i + 2] == 'o' && equation[i + 3] == 't')
-                        {
-                            token = new Operator("Root");
-                            tokens.Add(token);
-                        }
-                        else throw new ParserException("INVALID Function");
-                    }
-                    else throw new ParserException("INVALID FUNCTION");
-                    break;
-                default:
-                    break;
-            }
-        }
-        if (openParen != 0) throw new ParserException("PARENTHESIS NOT CLOSED");
-        return tokens;
     }
 
     //Shunting yard Algorithm
