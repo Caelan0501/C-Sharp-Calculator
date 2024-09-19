@@ -5,7 +5,30 @@ VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleCalculator", "ConsoleCalculator\ConsoleCalculator.csproj", "{3FEDA428-BA5E-4783-B369-E39D222ADACE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator", "Calculator\Calculator.csproj", "{8B595842-E33C-4355-8A6E-C9684B0D4EE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calculator", "Calculator\Calculator.csproj", "{8B595842-E33C-4355-8A6E-C9684B0D4EE0}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WCFCalculatorService", "WCFCalculatorService\", "{C17EDB4B-72AE-4E75-B3CE-B55A8D5629A1}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
+		ProjectReferences = "{8b595842-e33c-4355-8a6e-c9684b0d4ee0}|Calculator.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_50988"
+		Debug.AspNetCompiler.PhysicalPath = "WCFCalculatorService\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50988\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_50988"
+		Release.AspNetCompiler.PhysicalPath = "WCFCalculatorService\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50988\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "50988"
+		SlnRelativePath = "WCFCalculatorService\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +44,10 @@ Global
 		{8B595842-E33C-4355-8A6E-C9684B0D4EE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B595842-E33C-4355-8A6E-C9684B0D4EE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B595842-E33C-4355-8A6E-C9684B0D4EE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C17EDB4B-72AE-4E75-B3CE-B55A8D5629A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C17EDB4B-72AE-4E75-B3CE-B55A8D5629A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C17EDB4B-72AE-4E75-B3CE-B55A8D5629A1}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{C17EDB4B-72AE-4E75-B3CE-B55A8D5629A1}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
