@@ -3,11 +3,12 @@ public class Program
 {
     public static void Main(string[] args)
     {
+
+
+        return;
+
         //Test Section
         //MathNet.Numerics.FindRoots
-
-
-
         dynamic Calculator = Init_Calculator();
         bool end = false;
         do
