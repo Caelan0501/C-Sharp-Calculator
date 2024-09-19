@@ -1,4 +1,5 @@
-﻿public class Program
+﻿using Calculator;
+public class Program
 {
     public static void Main(string[] args)
     {
