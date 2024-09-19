@@ -91,6 +91,11 @@ public class Algerbra : Arithmetic
         if (result.GetType() == typeof(Operand)) return result;
         return (Term) result;
     }
+    
+    private List<Token> RemoveParens(List<Token> tokens) //Not in use
+    {
+        return tokens;
+    }
     public string Simplify(string equation)
     {
         Token result = SimplifyExpression(InfixToRPN(Token.ParseEquation(equation)));
@@ -108,54 +113,7 @@ public class Algerbra : Arithmetic
         }
         return simplified;
     }
-    private double SolveVariable(string variable, Token left, Token right)
-    {
-        if (left.GetType() == typeof(Term))
-        {
-            Term leftTerm = (Term)left;
-            if (leftTerm.Left.GetType() == typeof(Operand))
-            {
-                Operand a = (Operand)leftTerm.Left;
-                if (a.Value == null && a.Name == variable)
-                {
-                    //a is the variable here
-                    Token b = leftTerm.Right;
-                    switch (leftTerm.Op.Name)
-                    {
-                        case "ADD":
-                            left = a;
-                            right = new Term(right, b, new Operator('-'));
-                            break;
-                        case "SUBTRACT":
-                            left = a;
-                            right = new Term(right, b, new Operator('+'));
-                            break;
-                        case "MULTIPLY":
-                            left = a;
-                            right = new Term(right, b, new Operator('/'));
-                            break;
-                        case "DIVIDE":
-                            left = a;
-                            right = new Term(right, b, new Operator('*'));
-                            break;
-                    }
-                    Term newRight = (Term)right;
-                    right = SimplifyExpression(InfixToRPN(newRight.GetTokenizedList()));
-                }
-            }
-            /*
-            else if(leftTerm.Right.GetType() == typeof(Operand))
-            {
-                Operand b = (Operand)leftTerm.Right;
-                if(b.Value == null && b.Name == variable)
-                {
-                    //b is the variable here
-                }
-            }
-            */
-        }
-        return 0;
-    }
+    
     public new string Solve(string equation) 
     {
         if (!equation.Contains("=")) throw new Exception("NO = USED");
@@ -193,9 +151,53 @@ public class Algerbra : Arithmetic
         string result = "";
         foreach (string variable in variables)
         {
-            result += variable + " = " + SolveVariable(variable, left, right) + "\n";
+            result += SolveVariable(variable, left, right);
         }
         return result; //Placeholder
     }
-    
+    private string SolveVariable(string variable, Token left, Token right)
+    {
+        left = ZeroRightSide(left, right);
+        if (left.GetType() == typeof(Operand) && left.Name == variable) return variable + " = 0\n"; //removes x=0 case
+        Term term = (Term)left;
+        if (term.Left.GetType() == typeof(Operand))
+        {
+            right = (Term)term.Left;//Continue working here
+        }
+        else if (term.Right.GetType() == typeof(Operand))
+        {
+            
+        }
+
+        return variable + " = " + "" + "\n";
+    }
+
+    private char GetOppositeOp(char op)
+    {
+        switch (op)
+        {
+            case '+': 
+                return '-';
+            case '-':
+                return '+';
+            case '*':
+                return '/';
+            case '/':
+                return '*';
+            default:
+                throw new NotImplementedException();
+        }
+    }
+    private Token ZeroRightSide(Token left, Token right)
+    {
+        if (right.GetType() == typeof(Term))
+        {
+            Term term = (Term)right;
+            Operator op = term.Op;
+            left = new Term(left, term.Right, new Operator(GetOppositeOp(op.ShortName)));
+            return ZeroRightSide(left, term.Right);
+        }
+        left = new Term(left, right, new Operator('-'));
+        return left;
+    }
 }
