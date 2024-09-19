@@ -108,7 +108,7 @@ public class Operator : Token
 {
     public int Precedence = -1;
     public char Associativity = 'N';
-    public string ShortName;
+    public char ShortName;
 
     public Operator(char symbol)
     {
@@ -116,59 +116,59 @@ public class Operator : Token
         {
             case '+':
                 Name = "ADD";
-                ShortName = "+";
+                ShortName = '+';
                 Precedence = 2;
                 Associativity = 'L';
                 break;
             case '-':
                 Name = "SUBTRACT";
-                ShortName = "-";
+                ShortName = '-';
                 Precedence = 2;
                 Associativity = 'L';
                 break;
             case '*':
             case '×':
                 Name = "MULTIPLY";
-                ShortName = "*";
+                ShortName = '*';
                 Precedence = 3;
                 Associativity = 'L';
                 break;
             case '/':
             case '÷':
                 Name = "DIVIDE";
-                ShortName = "/";
+                ShortName = '/';
                 Precedence = 3;
                 Associativity = 'L';
                 break;
             case '%':
                 Name = "MODULUS";
-                ShortName = "%";
+                ShortName = '%';
                 Precedence = 3;
                 Associativity = 'L';
                 break;
             case '^':
                 Name = "POWER";
-                ShortName = "^";
+                ShortName = '^';
                 Precedence = 4;
                 Associativity = 'R';
                 break;
             case '√':
                 Name = "ROOT";
-                ShortName = "√";
+                ShortName = '√';
                 Precedence = 4;
                 Associativity = 'L';
                 break;
             case '(':
                 Name = "LPAREN";
-                ShortName = "(";
+                ShortName = '(';
                 break;
             case ')':
                 Name = "RPAREN";
-                ShortName = ")";
+                ShortName = ')';
                 break;
             default:
                 Name = "ERROR";
-                ShortName = "E";
+                ShortName = 'E';
                 break;
         }
     }
@@ -180,13 +180,13 @@ public class Operator : Token
         {
             case "ROOT":
                 Name = "ROOT";
-                ShortName = "√";
+                ShortName = '√';
                 Precedence = 4;
                 Associativity = 'L';
                 break;
             default:
                 Name = "ERROR";
-                ShortName = "E";
+                ShortName = 'E';
                 break;
         }
     }
