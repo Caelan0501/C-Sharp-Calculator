@@ -123,7 +123,7 @@ namespace Calculator
             AddToHistory(a, '/', b, a / b);
             return (a / b);
         }
-        public int? Mod(string aS, string bS)
+        public int Mod(string aS, string bS)
         {
             int a;
             int b;
