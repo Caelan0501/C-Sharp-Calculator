@@ -7,39 +7,64 @@ using System.ServiceModel.Web;
 using System.Text;
 using Calculator;
 
-// NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IService" in both code and config file together.
 [ServiceContract]
 public interface ICalculatorService
 {
-
 	[OperationContract]
 	double Add(string a, string b);
-
+	[OperationContract]
+	double Subtract(string a, string b);
+	[OperationContract]
+	double Multiply(string a, string b);
+	[OperationContract]
+	double Divide(string a, string b);
+	[OperationContract]
+	int Mod(string a, string b);
+	[OperationContract]
+	double Power(string a, string b);
+	[OperationContract]
+	double Root(string a, string b);
+	[OperationContract]
+	double SolveArithmetic (string equation);
 
 	[OperationContract]
-	CompositeType GetDataUsingDataContract(CompositeType composite);
+	int intergerAdd(int a, int b);
+	[OperationContract]
+	int integerSubtract(int a, int b);
+	[OperationContract]
+	int intergerMultiply(int a, int b);
+	[OperationContract]
+	int intergerDivide(int a, int b);
+	[OperationContract]
+	int integerMod(int a, int b);
+	[OperationContract]
+	int integerPower(int a, int b);
+    [OperationContract]
+    int integerRoot(int a, int b);
 
-	// TODO: Add your service operations here
-}
+    [OperationContract]
+	double doubleAdd(double a, double b);
+	[OperationContract]
+	double doubleSubtract(double a, double b);
+	[OperationContract]
+	double doubleMultiply(double a, double b);
+	[OperationContract]
+	double doubleDivide(double a, double b);
+    [OperationContract]
+    double doublePower(double a, double b);
+    [OperationContract]
+    double doubleRoot(double a, double b);
 
-// Use a data contract as illustrated in the sample below to add composite types to service operations.
-[DataContract]
-public class CompositeType
-{
-	bool boolValue = true;
-	string stringValue = "Hello ";
-
-	[DataMember]
-	public bool BoolValue
-	{
-		get { return boolValue; }
-		set { boolValue = value; }
-	}
-
-	[DataMember]
-	public string StringValue
-	{
-		get { return stringValue; }
-		set { stringValue = value; }
-	}
+    [OperationContract]
+	float floatAdd(float a, float b);
+	[OperationContract]
+	float floatSubtract(float a, float b);
+	[OperationContract]
+	float floatMultiply(float a, float b);
+	[OperationContract]
+	float floatDivide(float a, float b);
+    [OperationContract]
+    float floatPower(float a, float b);
+    [OperationContract]
+    float floatRoot(float a, float b);
 }
