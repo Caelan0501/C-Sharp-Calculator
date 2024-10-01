@@ -1,35 +1,26 @@
 ﻿classDiagram
-
-    class Basic4fun {
-        #History history
-        +Basic4fun()
-        +ToString()
-        +GetAllHistory() string
-        +GetRecentHistory() string
-        +ClearHistory()
-        +PauseHistory()
-        +ResumeHistory()
-        #AddToHistory(int a, char op, int b, int result)
-        #AddToHistory(double a, char op, double b, double result)
-        #AddToHistory(float a, char op, float b, float result)
-        +Add(int a, int b) int
-        +Add(double a, double b) double
-        +Add(float a, float b) float
-        +Add(string a, string b) double
-        +Subtract(int a, int b) int
-        +Subtract(double a, double b) double
-        +Subtract(float a, float b) float
-        +Subtract(string a, string b) double
-        +Multiply(int a, int b) int
-        +Multiply(double a, double b) double
-        +Multiply(float a, float b) float
-        +Multiply(string a, string b) double
-        +Divide(int a, int b) int
-        +Divide(double a, double b) double
-        +Divide(float a, float b) float
-        +Divide(string a, string b) double
-        +Mod(int a, int b) int
-        +Mod(string a, string b) int
+    note for SingleFunction "This class has 4 overloads for each operation\nint, double, float, and string and return the same respective values unless those return types are detremental\nAll overloads will be ammended out"
+    class SingleFunction {
+        +Add(double a, double b)$ double
+        +Subtract(double a, double b)$ double
+        +Multiply(double a, double b)$ double
+        +Divide(double a, double b)$ double
+        +Mod(int a, int b)$ int
+        +Power(double a, double b)$ double
+        +Root(double a, double b)$ double
+        +Abs(double a, bool degrees = false)$ double
+        +Sin(double a, bool degrees = false)$ double
+        +Cos(double a, bool degrees = false)$ double
+        +Tan(double a, bool degrees = false)$ double
+        +Asin(double a, bool degrees = false)$ double
+        +Acos(double a, bool degrees = false)$ double
+        +Atan(double a, bool degrees = false)$ double
+        +Sinh(double a, bool degrees = false)$ double
+        +Cosh(double a, bool degrees = false)$ double
+        +Tanh(double a, bool degrees = false)$ double
+        +Asinh(double a, bool degrees = false)$ double
+        +Acosh(double a, bool degrees = false)$ double
+        +Atanh(double a, bool degrees = false)$ double
     }
 
     class History{
@@ -43,19 +34,6 @@
         +AddEntry(string entry)
         +ReadAll() string
         +ReadRecent() string
-    }
-
-    class Basic6fun{
-        +Basic6fun()
-        +ToString()
-        +Power(int a, int b) int
-        +Power(double a, double b) double
-        +Power(float a, float b) float
-        +Power(string a, string b) double
-        +Root(int a, int b) int
-        +Root(double a, double b) double
-        +Root(float a, float b) float
-        +Root(string a, string b) double
     }
 
     class Token{
@@ -106,8 +84,8 @@
     Token <|-- Operand
     Token <|-- Operator
     Token <|-- Term
-    Basic4fun <|-- Basic6fun
-    Basic4fun *-- History
     Token <.. Arithmetic
-    Basic6fun <|-- Arithmetic
-    Arithmetic <|-- Algerbra
+    Token <.. Algerbra
+    SingleFunction <.. Arithmetic
+    SingleFunction <.. Algerbra
+

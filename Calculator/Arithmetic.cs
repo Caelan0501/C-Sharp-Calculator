@@ -4,19 +4,12 @@ using System.ComponentModel.Design;
 using System.Runtime.CompilerServices;
 namespace Calculator
 {
-    public class Arithmetic : Basic6Fun
+    public class Arithmetic
     {
-        public Arithmetic(bool enabledHistory = true) : base(enabledHistory: enabledHistory) { }
-        public override string ToString()
-        {
-            return "Arithmetic Calculator";
-        }
-
         public double Solve(string equation)
         {
             List<Token> RPN = InfixToRPN(Token.ParseEquation(equation));
             Stack<Token> stack = new Stack<Token>();
-            history.Pause();
             foreach (Token token in RPN)
             {
                 if (token.GetType() == typeof(Operand))
@@ -33,33 +26,31 @@ namespace Calculator
                 switch (op.Name)
                 {
                     case "ADD":
-                        stack.Push(new Operand(Add(aVal, bVal)));
+                        stack.Push(new Operand(Function.Add(aVal, bVal)));
                         break;
                     case "SUBTRACT":
-                        stack.Push(new Operand(Subtract(aVal, bVal)));
+                        stack.Push(new Operand(Function.Subtract(aVal, bVal)));
                         break;
                     case "MULTIPLY":
-                        stack.Push(new Operand(Multiply(aVal, bVal)));
+                        stack.Push(new Operand(Function.Multiply(aVal, bVal)));
                         break;
                     case "DIVIDE":
-                        stack.Push(new Operand(Divide(aVal, bVal)));
+                        stack.Push(new Operand(Function.Divide(aVal, bVal)));
                         break;
                     case "MODULUS":
-                        stack.Push(new Operand(Mod((int)aVal, (int)bVal)));
+                        stack.Push(new Operand(Function.Mod((int)aVal, (int)bVal)));
                         break;
                     case "POWER":
-                        stack.Push(new Operand(Power(aVal, bVal)));
+                        stack.Push(new Operand(Function.Power(aVal, bVal)));
                         break;
                     case "ROOT":
-                        stack.Push(new Operand(Root(aVal, bVal)));
+                        stack.Push(new Operand(Function.Root(aVal, bVal)));
                         break;
                     default:
                         throw new SolveException("UNKNOWN TOKEN");
                 }
             }
-            history.Resume();
             Operand result = (Operand)stack.Pop();
-            history.AddEntry(equation + " = " + result.Value.ToString());
             if (result.Value == null) throw new SolveException("UNKNOWN ERROR");
             return (double)result.Value;
         }

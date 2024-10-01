@@ -4,15 +4,11 @@ using System.Collections.Generic;
 
 namespace Calculator
 {
+    /// <summary>
+    /// Still in Development
+    /// </summary>
     public class Algerbra : Arithmetic
     {
-        public Algerbra(bool enabledHistory = true) { }
-
-        public override string ToString()
-        {
-            return "Algerbra Calculator";
-        }
-
         protected List<Token> RPNToInfix(List<Token> RPN)
         {
             for (int i = RPN.Count - 1; i >= 0; i--)
