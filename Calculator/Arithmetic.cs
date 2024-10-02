@@ -2,14 +2,19 @@
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Runtime.CompilerServices;
+using System.Diagnostics;
 namespace Calculator
 {
-    public class Arithmetic
+    public static class Arithmetic
     {
-        public double Solve(string equation)
+        public static double Solve(string equation) { return BaseSolve(equation, false, out List<string> steps); }
+        public static double Solve(string equation, out List<string> steps) { return BaseSolve(equation, true, out steps); }
+        private static double BaseSolve(string equation, bool stepbystep, out List<string> steps)
         {
             List<Token> RPN = InfixToRPN(Token.ParseEquation(equation));
             Stack<Token> stack = new Stack<Token>();
+            steps = new List<string>();
+            if (stepbystep) steps.Add(WriteStep(stack, RPN));
             foreach (Token token in RPN)
             {
                 if (token.GetType() == typeof(Operand))
@@ -49,15 +54,15 @@ namespace Calculator
                     default:
                         throw new SolveException("UNKNOWN TOKEN");
                 }
+                if (stepbystep) steps.Add(WriteStep(stack, RPN));
             }
             Operand result = (Operand)stack.Pop();
             if (result.Value == null) throw new SolveException("UNKNOWN ERROR");
             return (double)result.Value;
         }
-
         //Shunting yard Algorithm
         //Prase Dijstra
-        protected List<Token> InfixToRPN(List<Token> tokens)
+        private static List<Token> InfixToRPN(List<Token> tokens)
         {
             Stack<Operator> operatorStack = new Stack<Operator>();
             List<Token> RPN = new List<Token>();
@@ -103,6 +108,42 @@ namespace Calculator
             }
             while (operatorStack.Count > 0) RPN.Add(operatorStack.Pop());
             return RPN;
+        }
+        private static List<Token> RPNToInfix(List<Token> RPN)
+        {
+            for (int i = RPN.Count - 1; i >= 0; i--)
+            {
+                if (i >= RPN.Count) continue; //Prevents falling out of bounds
+                Token op = RPN[i];
+                if (op.GetType() != typeof(Operator)) continue;
+                Token a = RPN[i - 2];
+                if (a.GetType() == typeof(Operator)) continue;
+                Token b = RPN[i - 1];
+                if (b.GetType() == typeof(Operator)) continue;
+
+                Token term = new Term(a, b, (Operator)op);
+
+                RPN.RemoveAt(i);
+                RPN.RemoveAt(i - 1);
+                RPN[i - 2] = term;
+            }
+
+            if (RPN[0].GetType() == typeof(Operand)) return RPN;
+            return ((Term)RPN[0]).GetTokenizedList();
+        }
+        private static string WriteStep(Stack<Token> ogStack, List<Token> ogRPN)
+        {
+            Stack<Token> stack = new Stack<Token>(ogStack);
+            List<Token> RPN = new List<Token>(ogRPN);
+            while (stack.Count > 0) RPN.Insert(0, stack.Pop());
+            List<Token> Infix = RPNToInfix(RPN);
+            string result = "";
+            foreach (Token token in Infix)
+            {
+                if (token.GetType() == typeof(Operator)) result += ((Operator)token).ShortName;
+                else result += token.Name;
+            }
+            return result;
         }
     }
 
