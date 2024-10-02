@@ -9,12 +9,12 @@ namespace Calculator
 {
     internal abstract class Token
     {
-        public string Name;
-        public Token()
+        internal string Name;
+        internal Token()
         {
             Name = "UNDEFINED";
         }
-        public static List<Token> ParseEquation(string equation)
+        internal static List<Token> ParseEquation(string equation)
         {
             List<Token> tokens = new List<Token>();
             int openParen = 0;
@@ -88,31 +88,104 @@ namespace Calculator
             if (openParen != 0) throw new ParserException("PARENTHESIS NOT CLOSED");
             return tokens;
         }
-    }
+        internal static List<Token> InfixToRPN(List<Token> tokens)
+        {
+            //Shunting yard Algorithm
+            //Prase Dijstra
+            Stack<Operator> operatorStack = new Stack<Operator>();
+            List<Token> RPN = new List<Token>();
+            foreach (Token token in tokens)
+            {
+                if (token.GetType() == typeof(Operand))
+                {
+                    RPN.Add(token);
+                    continue;
+                }
+                else if (token.Name == "LPAREN")
+                {
+                    operatorStack.Push((Operator)token);
+                    continue;
+                }
+                else if (token.Name == "RPAREN")
+                {
+                    Operator top = operatorStack.Peek();
+                    while (!(top.Name == "LPAREN"))
+                    {
+                        RPN.Add(operatorStack.Pop());
+                        top = operatorStack.Peek();
+                    }
+                    operatorStack.Pop();// Remove the LPAREN
+                }
+                else
+                {
+                    Operator top;
+                    Operator curr = (Operator)token;
+                    if (operatorStack.Count == 0) operatorStack.Push(curr);
+                    else
+                    {
+                        top = operatorStack.Peek();
+                        while (!(top.Name == "LPAREN") && ((curr.Precedence <= top.Precedence) && curr.Associativity == 'L'))
+                        {
+                            RPN.Add(operatorStack.Pop());
+                            if (operatorStack.Count == 0) break;
+                            top = operatorStack.Peek();
+                        }
+                        operatorStack.Push(curr);
+                    }
+                }
+            }
+            while (operatorStack.Count > 0) RPN.Add(operatorStack.Pop());
+            return RPN;
+        }
+        internal static List<Token> RPNToInfix(List<Token> RPN)
+        {
+            for (int i = RPN.Count - 1; i >= 0; i--)
+            {
+                if (i >= RPN.Count) continue; //Prevents falling out of bounds
+                Token op = RPN[i];
+                if (op.GetType() != typeof(Operator)) continue;
+                Token a = RPN[i - 2];
+                if (a.GetType() == typeof(Operator)) continue;
+                Token b = RPN[i - 1];
+                if (b.GetType() == typeof(Operator)) continue;
 
+                Token term = new Term(a, b, (Operator)op);
+
+                RPN.RemoveAt(i);
+                RPN.RemoveAt(i - 1);
+                RPN[i - 2] = term;
+            }
+
+            if (RPN[0].GetType() == typeof(Operand)) return RPN;
+            return ((Term)RPN[0]).TermToList();
+        }
+
+        internal class ParserException : Exception
+        {
+            public ParserException(string message) : base(message) { }
+        }
+    }
     internal class Operand : Token
     {
-        public double? Value;
-        public Operand(double num)
+        internal double? Value;
+        internal Operand(double num)
         {
             Name = num.ToString();
             Value = num;
         }
-
-        public Operand(string variable)
+        internal Operand(string variable)
         {
             Name = variable;
             Value = null;
         }
     }
-
     internal class Operator : Token
     {
-        public int Precedence = -1;
-        public char Associativity = 'N';
-        public char ShortName;
+        internal int Precedence = -1;
+        internal char Associativity = 'N';
+        internal char ShortName;
 
-        public Operator(char symbol)
+        internal Operator(char symbol)
         {
             switch (symbol)
             {
@@ -168,6 +241,10 @@ namespace Calculator
                     Name = "RPAREN";
                     ShortName = ')';
                     break;
+                case '=':
+                    Name = "EQUAL";
+                    ShortName = '=';
+                    break;
                 default:
                     Name = "ERROR";
                     ShortName = 'E';
@@ -175,7 +252,7 @@ namespace Calculator
             }
         }
 
-        public Operator(string function)
+        internal Operator(string function)
         {
             function = function.ToUpper();
             switch (function)
@@ -193,13 +270,12 @@ namespace Calculator
             }
         }
     }
-
     internal class Term : Token
     {
-        public Token Left;
-        public Token Right;
-        public Operator Op;
-        public Term(Token Left, Token Right, Operator Op)
+        internal Token Left;
+        internal Token Right;
+        internal Operator Op;
+        internal Term(Token Left, Token Right, Operator Op)
         {
             if (Left.GetType() == typeof(Term)) Name = "(" + Left.Name + ")";
             else Name = Left.Name;
@@ -211,16 +287,14 @@ namespace Calculator
             this.Right = Right;
             this.Op = Op;
         }
-
-        public List<Token> GetTokenizedList()
+        internal List<Token> TermToList()
         {
-
             List<Token> tokens = new List<Token>();
             if (Left.GetType() == typeof(Operand)) tokens.Add(Left);
             else if (Left.GetType() == typeof(Term))
             {
                 tokens.Add(new Operator('('));
-                tokens.AddRange(GetTokenizedList((Term)Left));
+                tokens.AddRange(TermToList((Term)Left));
                 tokens.Add(new Operator(')'));
             }
             else throw new TermException("MISPLACED OPERATOR");
@@ -231,14 +305,14 @@ namespace Calculator
             else if (Right.GetType() == typeof(Term))
             {
                 tokens.Add(new Operator('('));
-                tokens.AddRange(GetTokenizedList((Term)Right));
+                tokens.AddRange(TermToList((Term)Right));
                 tokens.Add(new Operator(')'));
             }
             else throw new TermException("MISPLACED OPERATOR");
 
             return tokens;
         }
-        private IEnumerable<Token> GetTokenizedList(Term curr)
+        private IEnumerable<Token> TermToList(Term curr)
         {
             List<Token> tokens = new List<Token>();
 
@@ -246,7 +320,7 @@ namespace Calculator
             else if (curr.Left.GetType() == typeof(Term))
             {
                 tokens.Add(new Operator('('));
-                tokens.AddRange(GetTokenizedList((Term)curr.Left));
+                tokens.AddRange(TermToList((Term)curr.Left));
                 tokens.Add(new Operator(')'));
             }
             else throw new TermException("MISPLACED OPERATOR");
@@ -257,17 +331,16 @@ namespace Calculator
             else if (curr.Right.GetType() == typeof(Term))
             {
                 tokens.Add(new Operator('('));
-                tokens.AddRange(GetTokenizedList((Term)curr.Right));
+                tokens.AddRange(TermToList((Term)curr.Right));
                 tokens.Add(new Operator(')'));
             }
             else throw new TermException("MISPLACED OPERATOR");
 
             return tokens;
         }
-    }
-
-    public class TermException : Exception
-    {
-        public TermException(string message) : base(message) { }
+        internal class TermException : Exception
+        {
+            public TermException(string message) : base(message) { }
+        }
     }
 }

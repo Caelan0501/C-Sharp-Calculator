@@ -3,6 +3,29 @@ namespace Calculator
 {
     public static class Function
     {
+        internal static Operand SmartSolve(Operand a, Operand b, Operator op)
+        {
+            switch (op.Name)
+            {
+                case "ADD":
+                    return Function.Add(a, b);
+                case "SUBTRACT":
+                    return Function.Subtract(a, b);
+                case "MULTIPLY":
+                    return Function.Multiply(a, b);
+                case "DIVIDE":
+                    return Function.Divide(a, b);
+                case "MODULUS":
+                    return Function.Mod(a, b);
+                case "POWER":
+                    return Function.Power(a, b);
+                case "ROOT":
+                    return Function.Root(a, b);
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+        
         public static int Add(int a, int b)
         {
             return a + b;
@@ -20,6 +43,11 @@ namespace Calculator
             double a = Double.Parse(aS);
             double b = Double.Parse(bS);
             return (a + b).ToString();
+        }
+        internal static Operand Add(Operand a, Operand b)
+        {
+            if (a.Value == null || b.Value == null) throw new ArgumentException();
+            return new Operand((double)a.Value + (double)b.Value);
         }
 
         public static int Subtract(int a, int b)
@@ -40,6 +68,11 @@ namespace Calculator
             double b = Double.Parse(bS);
             return (a - b).ToString();
         }
+        internal static Operand Subtract(Operand a, Operand b)
+        {
+            if (a.Value == null || b.Value == null) throw new ArgumentException();
+            return new Operand((double)a.Value - (double)b.Value);
+        }
 
         public static int Multiply(int a, int b)
         {
@@ -58,6 +91,11 @@ namespace Calculator
             double a = Double.Parse(aS);
             double b = Double.Parse(bS);
             return (a * b).ToString();
+        }
+        internal static Operand Multiply(Operand a, Operand b)
+        {
+            if (a.Value == null || b.Value == null) throw new ArgumentException();
+            return new Operand((double)a.Value * (double)b.Value);
         }
 
         public static int Divide(int a, int b)
@@ -83,6 +121,12 @@ namespace Calculator
             if (b == 0) throw new DivideByZeroException();
             return (a / b).ToString();
         }
+        internal static Operand Divide(Operand a, Operand b)
+        {
+            if (a.Value == null || b.Value == null) throw new ArgumentException();
+            if (b.Value == 0) throw new DivideByZeroException();
+            return new Operand((double)a.Value / (double)b.Value);
+        }
 
         public static int Mod(int a, int b)
         {
@@ -103,6 +147,12 @@ namespace Calculator
             if (status) return (a % b).ToString();
             else throw new DivideByZeroException();
         }
+        internal static Operand Mod(Operand a, Operand b)
+        {
+            if (a.Value == null || b.Value == null) throw new ArgumentException();
+            if (b.Value == 0) throw new DivideByZeroException();
+            return new Operand((double)a.Value % (double)b.Value);
+        }
 
         public static int Power(int a, int b)
         {
@@ -122,6 +172,11 @@ namespace Calculator
             double b = Double.Parse(bS);
             return (Math.Pow(a, b)).ToString();
         }
+        internal static Operand Power(Operand a, Operand b)
+        {
+            if (a.Value == null || b.Value == null) throw new ArgumentException();
+            return new Operand(Math.Pow((double)a.Value, (double)b.Value));
+        }
 
         public static int Root(int a, int b)
         {
@@ -140,6 +195,11 @@ namespace Calculator
             double a = Double.Parse(aS);
             double b = Double.Parse(bS);
             return Power(a, Divide(1, b)).ToString();
+        }
+        internal static Operand Root(Operand a, Operand b)
+        {
+            if (a.Value == null || b.Value == null) throw new ArgumentException();
+            return Power(a, new Operand (Divide(1,(double)b.Value)));
         }
 
         public static int Abs(int a)
