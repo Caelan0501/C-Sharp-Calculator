@@ -5,42 +5,45 @@ namespace Calculator
 {
     public class History
     {
-        private List<string>? history;
+        private record Entry
+        {
+            public required string solution {get; set;}
+            public List<string>? subhistory;
+            public override string ToString()
+            {
+                string result = solution;
+                if (subhistory == null) return result;
+                foreach (string s in subhistory)
+                {
+                    result += "\n"+ "---" + s;
+                }
+                return result;
+            }
+        };
+        
+        private List<Entry> history;
         private bool paused;
-        private bool isChanged;
 
-        public History(bool enabled = true)
+        public History()
         {
             paused = false;
-            isChanged = true;
-            if (enabled)
-            {
-                history = new List<string>();
-            }
+            history = new List<Entry>();
         }
-        public void Clear()
+        
+        public void Start() { paused = false; }
+        public void Pause() { paused = true; }
+        public void Clear() { history.Clear(); }
+
+        public void AddEntry(string solution)
         {
-            if (history != null) history.Clear();
+            if (paused) return;
+            history.Add(new Entry { solution = solution });
         }
-        public void Resume()
+
+        public void AddEntry(string solution, List<string> subHistory)
         {
-            paused = false;
-        }
-        public void Pause()
-        {
-            paused = true;
-        }
-        public bool IsEnabled()
-        {
-            return history == null;
-        }
-        public void AddEntry(string entry)
-        {
-            if (!(history == null) && !paused)
-            {
-                history.Add(entry);
-                isChanged = true;
-            }
+            if (paused) return;
+            history.Add(new Entry { solution = solution , subhistory = subHistory});
         }
 
         /// <summary>
@@ -49,32 +52,15 @@ namespace Calculator
         /// <returns>"{a} {operator} {b} = {result} \n" {next entry} ...</returns>
         public string ReadAll()
         {
-            if (history == null) return "";
             string result = "";
-            foreach (string entry in history)
+            foreach (Entry entry in history)
             {
-                result = entry + "\n" + result;
+                result += "-----------------------\n";
+                result = entry.ToString() + "\n" + result;
+                result += "-----------------------\n";
             }
             result = result + "End of History";
             return result;
-        }
-
-        int recentcyIndex = 0;
-        public string ReadRecent()
-        {
-            if (history == null) return "";
-            if (isChanged == true)
-            {
-                recentcyIndex = 0;
-                isChanged = false;
-            }
-            if (recentcyIndex != history.Count)
-            {
-                string result = history[history.Count - recentcyIndex - 1];
-                recentcyIndex++;
-                return result;
-            }
-            return "No Further History";
         }
     }
 

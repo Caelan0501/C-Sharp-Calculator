@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Calculator
 {
-    public abstract class Token
+    internal abstract class Token
     {
         public string Name;
         public Token()
@@ -90,7 +90,7 @@ namespace Calculator
         }
     }
 
-    public class Operand : Token
+    internal class Operand : Token
     {
         public double? Value;
         public Operand(double num)
@@ -106,7 +106,7 @@ namespace Calculator
         }
     }
 
-    public class Operator : Token
+    internal class Operator : Token
     {
         public int Precedence = -1;
         public char Associativity = 'N';
@@ -194,7 +194,7 @@ namespace Calculator
         }
     }
 
-    public class Term : Token
+    internal class Term : Token
     {
         public Token Left;
         public Token Right;

@@ -1,6 +1,8 @@
 ﻿classDiagram
-    note for SingleFunction "This class has 4 overloads for each operation\nint, double, float, and string and return the same respective values unless those return types are detremental\nAll overloads will be ammended out"
-    class SingleFunction {
+
+namespace Calculator {
+
+    class Function {
         +Add(double a, double b)$ double
         +Subtract(double a, double b)$ double
         +Multiply(double a, double b)$ double
@@ -22,7 +24,7 @@
         +Acosh(double a, bool degrees = false)$ double
         +Atanh(double a, bool degrees = false)$ double
     }
-
+	
     class History{
         -List~string~ history
         -bool enabled
@@ -79,13 +81,15 @@
         +Simplify(string equation) string
         #RPNToInfix(List~Token~) List~Token~
         -ParseTokens(string equation) List~Token~
-    }
+    }   
 
-    Token <|-- Operand
-    Token <|-- Operator
-    Token <|-- Term
-    Token <.. Arithmetic
-    Token <.. Algerbra
-    SingleFunction <.. Arithmetic
-    SingleFunction <.. Algerbra
+}
+Token <|-- Operand
+Token <|-- Operator
+Token <|-- Term
+Token <.. Arithmetic
+Token <.. Algerbra
+Function <.. Arithmetic
+Function <.. Algerbra
 
+note for Function "This class has 4 overloads for each operation\nint, double, float, and string and return the same respective values unless those return types are detremental\nAll overloads will be ammended out"

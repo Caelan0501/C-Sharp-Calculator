@@ -9,7 +9,7 @@ namespace Calculator
     /// </summary>
     public class Algerbra : Arithmetic
     {
-        protected List<Token> RPNToInfix(List<Token> RPN)
+        private List<Token> RPNToInfix(List<Token> RPN)
         {
             for (int i = RPN.Count - 1; i >= 0; i--)
             {
