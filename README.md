@@ -5,7 +5,7 @@ WCFCalculatorServiceLocal - WCF Service configured to run on my localhost at hom
 gRPCCalculatorService - gRPC Service configured to run on my localhost at home<br>
 <br>
 Future Plans<br>
-Finish a local Version of gRPC Service
-RESTful Service
-Finish Algerbra.cs
-Create Various Formula Functions
+Finish a local Version of gRPC Service<br>
+RESTful Service<br>
+Finish Algerbra.cs<br>
+Create Various Formula Functions<br>
