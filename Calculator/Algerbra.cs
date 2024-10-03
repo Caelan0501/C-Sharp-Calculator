@@ -65,7 +65,7 @@ namespace Calculator
             {
                 result += SolveVariable(variable, left, right);
             }
-            return result; //Placeholder
+            return result;
         }
         
 
