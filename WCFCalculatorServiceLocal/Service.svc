@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="WCFCalculatorServiceLocal" CodeBehind="~/App_Code/CalculatorService.cs" %>

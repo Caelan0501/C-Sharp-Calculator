@@ -35,10 +35,10 @@ public class Program
                     new FunctionCalculatorConsole();
                     break;
                 case 2:
-                    Calculator = new Arithmetic();
+                    //Calculator = new Arithmetic();
                     break;
                 case 3:
-                    Calculator = new Algerbra();
+                    //Calculator = new Algerbra();
                     break;
                 default:
                     Console.WriteLine("ERROR");
