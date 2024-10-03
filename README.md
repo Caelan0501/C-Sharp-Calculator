@@ -9,3 +9,4 @@ Finish a local Version of gRPC Service<br>
 RESTful Service<br>
 Finish Algerbra.cs<br>
 Create Various Formula Functions<br>
+Reapply Calculator Class into Other Laguages I know/Want to know more about (C, C++, Python, Java, Javascript)
