@@ -1,8 +1,8 @@
-syntax = "proto3";										//Use the latest secema
+syntax = "proto3";
 
-option csharp_namespace = "gRPCCalculatorService";		//What namespace we are using
+option csharp_namespace = "GrpcCalculatorServiceLocal";
 
-package greet;											//name of package
+package Calc;
 
 // The greeting service definition.
 service Greeter {
@@ -12,7 +12,7 @@ service Greeter {
 
 // The request message containing the user's name.
 message HelloRequest {
-  string name = 1;	//1 indicates order
+  string name = 1;
 }
 
 // The response message containing the greetings.

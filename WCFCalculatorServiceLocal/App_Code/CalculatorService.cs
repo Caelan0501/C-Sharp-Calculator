@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime;
 using Calculator;
 
 public class WCFCalculatorServiceLocal : IWCFCalculatorServiceLocal

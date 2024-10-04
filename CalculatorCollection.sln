@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleCalculator", "Consol
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calculator", "Calculator\Calculator.csproj", "{8B595842-E33C-4355-8A6E-C9684B0D4EE0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcCalculatorService", "GrpcCalculatorService\GrpcCalculatorService.csproj", "{E655B025-272B-4FB6-959F-93D5D3BADB43}"
-EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WCFCalculatorServiceLocal", "WCFCalculatorServiceLocal\", "{1CAC5B4A-DA09-468A-AB77-C8B939165609}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
@@ -32,6 +30,12 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WCFCalculatorServiceLocal",
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculatorTest", "CalculatorTest\CalculatorTest.csproj", "{A6C73425-0259-480D-BE2A-C6D94AD7638C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcCalculatorServiceLocal", "GrpcCalculatorServiceLocal\GrpcCalculatorServiceLocal.csproj", "{DEA8BE64-8107-4AF5-BC52-39704C37741E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCFCalculatorServiceLocal3", "WCFCalculatorServiceLocal3\WCFCalculatorServiceLocal3.csproj", "{BB62D829-A6DF-4A0C-84C7-3BE6A53C8235}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,19 +43,26 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3FEDA428-BA5E-4783-B369-E39D222ADACE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FEDA428-BA5E-4783-B369-E39D222ADACE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FEDA428-BA5E-4783-B369-E39D222ADACE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FEDA428-BA5E-4783-B369-E39D222ADACE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8B595842-E33C-4355-8A6E-C9684B0D4EE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8B595842-E33C-4355-8A6E-C9684B0D4EE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B595842-E33C-4355-8A6E-C9684B0D4EE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B595842-E33C-4355-8A6E-C9684B0D4EE0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E655B025-272B-4FB6-959F-93D5D3BADB43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E655B025-272B-4FB6-959F-93D5D3BADB43}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E655B025-272B-4FB6-959F-93D5D3BADB43}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1CAC5B4A-DA09-468A-AB77-C8B939165609}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1CAC5B4A-DA09-468A-AB77-C8B939165609}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CAC5B4A-DA09-468A-AB77-C8B939165609}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{1CAC5B4A-DA09-468A-AB77-C8B939165609}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{A6C73425-0259-480D-BE2A-C6D94AD7638C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6C73425-0259-480D-BE2A-C6D94AD7638C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6C73425-0259-480D-BE2A-C6D94AD7638C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEA8BE64-8107-4AF5-BC52-39704C37741E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEA8BE64-8107-4AF5-BC52-39704C37741E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEA8BE64-8107-4AF5-BC52-39704C37741E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEA8BE64-8107-4AF5-BC52-39704C37741E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB62D829-A6DF-4A0C-84C7-3BE6A53C8235}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB62D829-A6DF-4A0C-84C7-3BE6A53C8235}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB62D829-A6DF-4A0C-84C7-3BE6A53C8235}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,8 +9,9 @@ public class Program
         Console.WriteLine("Which Calculator would you like to use");
         Console.WriteLine("     (1) Functional calcuator");
         Console.WriteLine("     (2) Arithmetic calculator");
-        Console.WriteLine("     (3) Arithmetic Calculator");
-        Console.WriteLine("     (4) Algerbra Calculator");
+        Console.WriteLine("     (3) Algerbra Calculator");
+        Console.WriteLine("     (4) WCF Service Calculator");
+        Console.WriteLine("     (5) Grpc Service Calculator");
         bool status = false;
         int option;
         do
@@ -20,10 +21,10 @@ public class Program
             {
                 Console.WriteLine("Please Try Again");
             }
-        } while (!(status && (option > 0 && option <= 3)));
+        } while (!(status && (option > 0 && option <= 5)));
         Console.WriteLine("Starting Calculator");
         dynamic Calculator = "Not Assigned to a calculator";
-        bool repeat = false;
+        bool repeat;
         do
         {
             repeat = false;
@@ -32,13 +33,19 @@ public class Program
                 case 1:
                     //Calls Constructor but does not store the object
                     Console.WriteLine("--------------------------------------------------------------------------");
-                    new FunctionCalculatorConsole();
+                    new FunctionConsole();
                     break;
                 case 2:
-                    //Calculator = new Arithmetic();
+                    new ArithmeticConsole();
                     break;
                 case 3:
-                    //Calculator = new Algerbra();
+                    new AlgerbraConsole();
+                    break;
+                case 4:
+                    new WCFCalculatorClientConsole();
+                    break;
+                case 5:
+                    new GrpcCalculatorClientConsole();
                     break;
                 default:
                     Console.WriteLine("ERROR");

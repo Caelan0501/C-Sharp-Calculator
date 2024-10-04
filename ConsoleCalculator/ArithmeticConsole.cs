@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleCalculator
 {
-    class FunctionCalculatorConsole
+    class ArithmeticConsole
     {
         private const string info =
             "To use please input your Equation in the following format: {a} {operator} {b}" + "\n" +
@@ -16,7 +16,7 @@ namespace ConsoleCalculator
             "ReadAllHistory - Read All History from youngest to oldest" + "\n" +
             "Quit - End the program";
 
-        public FunctionCalculatorConsole()
+        public ArithmeticConsole()
         {
             Console.WriteLine("Functional Calculator Started");
             Console.WriteLine("For the List of Commands type Help");

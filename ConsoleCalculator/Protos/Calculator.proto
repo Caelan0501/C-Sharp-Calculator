@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcCalculatorServiceLocal";
+
+service Calculator {
+	rpc Add (Parameters) returns (Result);
+}
+
+message Parameters {
+	string a = 1;
+	string b = 2;
+}
+
+message Result {
+	double solution = 1;
+}
