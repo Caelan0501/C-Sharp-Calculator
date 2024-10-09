@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 namespace Calculator
 {
     public static class Formula
@@ -47,6 +48,152 @@ namespace Calculator
                 return Arithmetic.Solve(equation);
             }
             else throw new ArgumentException();
+        }
+
+        public static int Sum(int[] nums)
+        {
+            int sum = 0;
+            foreach (int i in nums)
+            {
+                sum += i;
+            }
+            return sum;
+        }
+        public static double Sum(double[] nums)
+        {
+            double sum = 0;
+            foreach (double i in nums)
+            {
+                sum += i;
+            }
+            return sum;
+        }
+        public static float Sum(float[] nums)
+        {
+            float sum = 0;
+            foreach (float i in nums)
+            {
+                sum += i;
+            }
+            return sum;
+        }
+        public static int Sum(List<int> nums)
+        {
+            int sum = 0;
+            foreach (int i in nums)
+            {
+                sum += i;
+            }
+            return sum;
+        }
+        public static double Sum(List<double> nums)
+        {
+            double sum = 0;
+            foreach (double i in nums)
+            {
+                sum += i;
+            }
+            return sum;
+        }
+        public static float Sum(List<float> nums)
+        {
+            float sum = 0;
+            foreach (float i in nums)
+            {
+                sum += i;
+            }
+            return sum;
+        }
+        internal static Operand Sum(Operand[] nums)
+        {
+            Operand sum = new Operand(0);
+            foreach (Operand i in nums)
+            {
+                sum = new Operand(Function.Add(sum, i));
+            }
+            return sum;
+        }
+        internal static Operand Sum(List<Operand> nums)
+        {
+            Operand sum = new Operand(0);
+            foreach (Operand i in nums)
+            {
+                sum = new Operand(Function.Add(sum, i));
+            }
+            return sum;
+        }
+
+        public static int Mean(int[] nums)
+        {
+            int sum = 0;
+            foreach (int i in nums)
+            {
+                sum += i;
+            }
+            return sum / nums.Length;
+        }
+        public static double Mean(double[] nums)
+        {
+            double sum = 0;
+            foreach (double i in nums)
+            {
+                sum += i;
+            }
+            return sum / nums.Length;
+        }
+        public static float Mean(float[] nums)
+        {
+            float sum = 0;
+            foreach (float i in nums)
+            {
+                sum += i;
+            }
+            return sum / nums.Length;
+        }
+        public static int Mean(List<int> nums)
+        {
+            int sum = 0;
+            foreach (int i in nums)
+            {
+                sum += i;
+            }
+            return sum / nums.Count;
+        }
+        public static double Mean(List<double> nums)
+        {
+            double sum = 0;
+            foreach (double i in nums)
+            {
+                sum += i;
+            }
+            return sum / nums.Count;
+        }
+        public static float Mean(List<float> nums)
+        {
+            float sum = 0;
+            foreach (float i in nums)
+            {
+                sum += i;
+            }
+            return sum / nums.Count;
+        }
+        internal static Operand Mean(Operand[] nums)
+        {
+            Operand sum = new Operand(0);
+            foreach (Operand i in nums)
+            {
+                sum = new Operand(Function.Add(sum, i));
+            }
+            return new Operand(Function.Divide(sum, new Operand(nums.Length)));
+        }
+        internal static Operand Mean(List<Operand> nums)
+        {
+            Operand sum = new Operand(0);
+            foreach (Operand i in nums)
+            {
+                sum = new Operand(Function.Add(sum, i));
+            }
+            return new Operand(Function.Divide(sum, new Operand(nums.Count)));
         }
     }
 }

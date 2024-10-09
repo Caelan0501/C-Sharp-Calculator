@@ -178,6 +178,11 @@ namespace Calculator
             Name = variable;
             Value = null;
         }
+        internal Operand(Operand operand)
+        {
+            this.Name = operand.Name;
+            this.Value = operand.Value;
+        }
     }
     internal class Operator : Token
     {
