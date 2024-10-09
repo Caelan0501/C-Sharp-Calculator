@@ -1,16 +1,74 @@
 syntax = "proto3";
 
+import "google/protobuf/wrappers.proto";
+
 option csharp_namespace = "GrpcCalculatorServiceLocal";
 
 service Calculator {
-	rpc Add (Parameters) returns (Result);
+	//Function.cs
+	rpc Add (Nums) returns (Response);
+	rpc Subtract (Nums) returns (Response);
+	rpc Multiply (Nums) returns (Response);
+	rpc Divide (Nums) returns (Response);
+	rpc Mod (Ints) returns (Response);
+	rpc Power (Nums) returns (Response);
+	rpc Root (Nums) returns (Response);
+	rpc Abs (Num) returns (Response);
+	rpc Sin (Angle) returns (Response);
+	rpc Cos (Angle) returns (Response);
+	rpc Tan (Angle) returns (Response);
+	rpc Sinh (Angle) returns (Response);
+	rpc Cosh (Angle) returns (Response);
+	rpc Tanh (Angle) returns (Response);
+	rpc Asin (Angle) returns (Response);
+	rpc Acos (Angle) returns (Response);
+	rpc Atan (Angle) returns (Response);
+	rpc Asinh (Angle) returns (Response);
+	rpc Acosh (Angle) returns (Response);
+	rpc Atanh (Angle) returns (Response);
+	rpc Ln (Num) returns (Response);
+	rpc Log (Nums) returns (Response);
+
+	//Formula.cs
+	rpc Pythagorean (PythagoreanRequest) returns (Response);
+	rpc Sum (NumList) returns (Response);
+	rpc Mean (NumList) returns (Response);
+
+	//Aritmetic.cs
+	rpc Aritmetic (Equation) returns (Response);
 }
 
-message Parameters {
-	string a = 1;
-	string b = 2;
+//Requests
+message Nums {
+	double n1 = 1;
+	double n2 = 2;
+}
+message Num {
+	double n = 1;
 }
 
-message Result {
-	double solution = 1;
+message Ints{
+	int32 n1 = 1;
+	int32 n2 = 2;
+}
+message Angle{
+	double a = 1;
+	bool degrees = 2;
+}
+message PythagoreanRequest{
+	//Allows nullable doubles ... Probably need to confirm how it works
+	google.protobuf.DoubleValue a = 1;
+	google.protobuf.DoubleValue b = 2;
+	google.protobuf.DoubleValue c = 3;
+}
+message NumList{
+	repeated double a = 1;
+}
+message Equation{
+	string e = 1;
+}
+
+//Responses
+message Response {
+	double result = 1;
 }
