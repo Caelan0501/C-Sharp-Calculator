@@ -20,11 +20,11 @@ namespace ConsoleCalculator
         {
             var channel = GrpcChannel.ForAddress("https://localhost:7271/");
             var calculatorClient = new GrpcCalculatorServiceLocal.Calculator.CalculatorClient(channel);
-            var clientRequested = new Parameters { A = "1", B = "2" };
+            var clientRequested = new Nums { N1 = 1, N2 = 2 };
             calculatorClient.Add(clientRequested);
             var result = calculatorClient.Add(clientRequested);
 
-            Console.WriteLine("1 + 2 = " + result.Solution.ToString());
+            Console.WriteLine("1 + 2 = " + result.Result.ToString());
         }
     }
 }
