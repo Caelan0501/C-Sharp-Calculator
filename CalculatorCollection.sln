@@ -3,11 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleCalculator", "ConsoleCalculator\ConsoleCalculator.csproj", "{3FEDA428-BA5E-4783-B369-E39D222ADACE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleCalculator", "C# Projects\ConsoleCalculator\ConsoleCalculator.csproj", "{3FEDA428-BA5E-4783-B369-E39D222ADACE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calculator", "Calculator\Calculator.csproj", "{8B595842-E33C-4355-8A6E-C9684B0D4EE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calculator", "C# Projects\Calculator\Calculator.csproj", "{8B595842-E33C-4355-8A6E-C9684B0D4EE0}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WCFCalculatorServiceLocal", "WCFCalculatorServiceLocal\", "{1CAC5B4A-DA09-468A-AB77-C8B939165609}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WCFCalculatorServiceLocal", "C# Projects\WCFCalculatorServiceLocal\", "{1CAC5B4A-DA09-468A-AB77-C8B939165609}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
+		ProjectReferences = "{8b595842-e33c-4355-8a6e-c9684b0d4ee0}|Calculator.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_53568"
+		Debug.AspNetCompiler.PhysicalPath = "WCFCalculatorServiceLocal\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53568\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_53568"
+		Release.AspNetCompiler.PhysicalPath = "WCFCalculatorServiceLocal\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53568\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "53568"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
 		ProjectReferences = "{8b595842-e33c-4355-8a6e-c9684b0d4ee0}|Calculator.dll;"
@@ -30,13 +50,13 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WCFCalculatorServiceLocal",
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalculatorTest", "CalculatorTest\CalculatorTest.csproj", "{A6C73425-0259-480D-BE2A-C6D94AD7638C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalculatorTest", "C# Projects\CalculatorTest\CalculatorTest.csproj", "{A6C73425-0259-480D-BE2A-C6D94AD7638C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcCalculatorServiceLocal", "GrpcCalculatorServiceLocal\GrpcCalculatorServiceLocal.csproj", "{DEA8BE64-8107-4AF5-BC52-39704C37741E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcCalculatorServiceLocal", "C# Projects\GrpcCalculatorServiceLocal\GrpcCalculatorServiceLocal.csproj", "{DEA8BE64-8107-4AF5-BC52-39704C37741E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCFCalculatorServiceLocal3", "WCFCalculatorServiceLocal3\WCFCalculatorServiceLocal3.csproj", "{BB62D829-A6DF-4A0C-84C7-3BE6A53C8235}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCFCalculatorServiceLocal3", "C# Projects\WCFCalculatorServiceLocal3\WCFCalculatorServiceLocal3.csproj", "{BB62D829-A6DF-4A0C-84C7-3BE6A53C8235}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsCalculator", "WindowsFormsCalculator\WindowsFormsCalculator.csproj", "{FC2813A8-7AB3-48C3-93BC-2AE6AF693D53}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsCalculator", "C# Projects\WindowsFormsCalculator\WindowsFormsCalculator.csproj", "{FC2813A8-7AB3-48C3-93BC-2AE6AF693D53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
