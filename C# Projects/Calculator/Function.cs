@@ -221,14 +221,14 @@ namespace Calculator
         public static double Sin(double a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Sin(a);
+            a = Math.Sin(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a;
         }
         public static float Sin(float a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide((float)Math.PI, 180));
-            Math.Sin(a);
+            a = Math.Sin(a);
             if (degrees) a = Multiply(a, Divide(180, (float)Math.PI));
             return a;
         }
@@ -236,7 +236,7 @@ namespace Calculator
         {
             double a = Double.Parse(s);
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Sin(a);
+            a = Math.Sin(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a.ToString();
         }
@@ -244,14 +244,14 @@ namespace Calculator
         public static double Cos(double a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Cos(a);
+            a = Math.Cos(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a;
         }
         public static float Cos(float a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide((float)Math.PI, 180));
-            Math.Cos(a);
+            a = Math.Cos(a);
             if (degrees) a = Multiply(a, Divide(180, (float)Math.PI));
             return a;
         }
@@ -259,7 +259,7 @@ namespace Calculator
         {
             double a = Double.Parse(s);
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Cos(a);
+            a = Math.Cos(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a.ToString();
         }
@@ -267,14 +267,14 @@ namespace Calculator
         public static double Tan(double a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Tan(a);
+            a = Math.Tan(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a;
         }
         public static float Tan(float a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide((float)Math.PI, 180));
-            Math.Tan(a);
+            a = Math.Tan(a);
             if (degrees) a = Multiply(a, Divide(180, (float)Math.PI));
             return a;
         }
@@ -290,14 +290,14 @@ namespace Calculator
         public static double Sinh(double a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Sinh(a);
+            a = Math.Sinh(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a;
         }
         public static float Sinh(float a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide((float)Math.PI, 180));
-            Math.Sinh(a);
+            a = Math.Sinh(a);
             if (degrees) a = Multiply(a, Divide(180, (float)Math.PI));
             return a;
         }
@@ -305,7 +305,7 @@ namespace Calculator
         {
             double a = Double.Parse(s);
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Sinh(a);
+            a = Math.Sinh(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a.ToString();
         }
@@ -313,14 +313,14 @@ namespace Calculator
         public static double Cosh(double a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Cosh(a);
+            a = Math.Cosh(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a;
         }
         public static float Cosh(float a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide((float)Math.PI, 180));
-            Math.Cosh(a);
+            a = Math.Cosh(a);
             if (degrees) a = Multiply(a, Divide(180, (float)Math.PI));
             return a;
         }
@@ -328,7 +328,7 @@ namespace Calculator
         {
             double a = Double.Parse(s);
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Cosh(a);
+            a = Math.Cosh(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a.ToString();
         }
@@ -336,14 +336,14 @@ namespace Calculator
         public static double Tanh(double a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Tanh(a);
+            a = Math.Tanh(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a;
         }
         public static float Tanh(float a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide((float)Math.PI, 180));
-            Math.Tanh(a);
+            a = Math.Tanh(a);
             if (degrees) a = Multiply(a, Divide(180, (float)Math.PI));
             return a;
         }
@@ -351,7 +351,7 @@ namespace Calculator
         {
             double a = Double.Parse(s);
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Tanh(a);
+            a = Math.Tanh(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a.ToString();
         }
@@ -359,14 +359,14 @@ namespace Calculator
         public static double Asin(double a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Asin(a);
+            a = Math.Asin(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a;
         }
         public static float Asin(float a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide((float)Math.PI, 180));
-            Math.Asin(a);
+            a = Math.Asin(a);
             if (degrees) a = Multiply(a, Divide(180, (float)Math.PI));
             return a;
         }
@@ -374,7 +374,7 @@ namespace Calculator
         {
             double a = Double.Parse(s);
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Asin(a);
+            a = Math.Asin(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a.ToString();
         }
@@ -382,14 +382,14 @@ namespace Calculator
         public static double Acos(double a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Acos(a);
+            a = Math.Acos(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a;
         }
         public static float Acos(float a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide((float)Math.PI, 180));
-            Math.Acos(a);
+            a = Math.Acos(a);
             if (degrees) a = Multiply(a, Divide(180, (float)Math.PI));
             return a;
         }
@@ -397,7 +397,7 @@ namespace Calculator
         {
             double a = Double.Parse(s);
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Acos(a);
+            a = Math.Acos(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a.ToString();
         }
@@ -405,14 +405,14 @@ namespace Calculator
         public static double Atan(double a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Atan(a);
+            a = Math.Atan(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a;
         }
         public static float Atan(float a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide((float)Math.PI, 180));
-            Math.Atan(a);
+            a = Math.Atan(a);
             if (degrees) a = Multiply(a, Divide(180, (float)Math.PI));
             return a;
         }
@@ -420,7 +420,7 @@ namespace Calculator
         {
             double a = Double.Parse(s);
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Atan(a);
+            a = Math.Atan(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a.ToString();
         }
@@ -428,14 +428,14 @@ namespace Calculator
         public static double Asinh(double a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Asinh(a);
+            a = Math.Asinh(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a;
         }
         public static float Asinh(float a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide((float)Math.PI, 180));
-            Math.Asinh(a);
+            a = Math.Asinh(a);
             if (degrees) a = Multiply(a, Divide(180, (float)Math.PI));
             return a;
         }
@@ -443,7 +443,7 @@ namespace Calculator
         {
             double a = Double.Parse(s);
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Asinh(a);
+            a = Math.Asinh(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a.ToString();
         }
@@ -451,14 +451,14 @@ namespace Calculator
         public static double Acosh(double a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Acosh(a);
+            a = Math.Acosh(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a;
         }
         public static float Acosh(float a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide((float)Math.PI, 180));
-            Math.Acosh(a);
+            a = Math.Acosh(a);
             if (degrees) a = Multiply(a, Divide(180, (float)Math.PI));
             return a;
         }
@@ -466,7 +466,7 @@ namespace Calculator
         {
             double a = Double.Parse(s);
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Acosh(a);
+            a = Math.Acosh(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a.ToString();
         }
@@ -474,14 +474,14 @@ namespace Calculator
         public static double Atanh(double a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Atanh(a);
+            a = Math.Atanh(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a;
         }
         public static float Atanh(float a, bool degrees = false)
         {
             if (degrees) a = Multiply(a, Divide((float)Math.PI, 180));
-            Math.Atanh(a);
+            a = Math.Atanh(a);
             if (degrees) a = Multiply(a, Divide(180, (float)Math.PI));
             return a;
         }
@@ -489,7 +489,7 @@ namespace Calculator
         {
             double a = Double.Parse(s);
             if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-            Math.Atanh(a);
+            a = Math.Atanh(a);
             if (degrees) a = Multiply(a, Divide(180, Math.PI));
             return a.ToString();
         }
