@@ -21,7 +21,7 @@ public class Function
 	}
 	public static double Subtract(double a, double b)
 	{
-	    return a - b;
+	    return a - b; 
 	}
 	public static float Subtract(float a, float b)
 	{
@@ -57,5 +57,9 @@ public class Function
 	    return a / b;
 	}
 
-	
+	public static int Mod(int a, int b) throws Exception
+	{
+	    if (b == 0) throw new Exception("Cannot Divide by Zero");
+	    return a % b;
+	}
 }
