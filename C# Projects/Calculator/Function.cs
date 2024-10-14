@@ -115,7 +115,6 @@ namespace Calculator
         }
         public static string Divide(string aS, string bS)
         {
-
             double a = Double.Parse(aS);
             double b = Double.Parse(bS);
             if (b == 0) throw new DivideByZeroException();
