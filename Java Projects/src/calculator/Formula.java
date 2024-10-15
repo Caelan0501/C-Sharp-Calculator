@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.lang.String;
+import java.lang.reflect.Array;
 
 class Formula 
 {
@@ -21,38 +22,31 @@ class Formula
 	
 	public static double Pythagorean(double a, double b, double c)
 	{
-		if (a == Double.NaN && b == Double.NaN || b == Double.NaN && c == Double.NaN || a == Double.NaN && c == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
+		if (a == Double.NaN && b == Double.NaN || b == Double.NaN && c == Double.NaN || a == Double.NaN && c == Double.NaN) 
+			throw new IllegalArgumentException("Both Parameters must be a number");
 	    
-		List<Token> eq = new ArrayList<Token>();
-		eq.add(new Operator("ROOT"));
-		eq.add(new Operator('('));
+		Token[] equation = 
+		{
+			new Operator("ROOT"), new Operator('('), 
+			null, new Operator('^'), new Operand(2), 
+			null, 
+			null, new Operator('^'), new Operand(2), 
+			new Operator(')'), new Operand(2)
+		};
 		if (c == Double.NaN)
 	    {
-			eq.addAll(Arrays.asList
-			(
-				new Operand(a), new Operator('^'), new Operand(2), 
-				new Operator('+'), 
-				new Operand(b), new Operator('^'), new Operand(2)
-			));
+			equation[2] = new Operand(a);
+			equation[5] = new Operator('+');
+			equation[6] = new Operand(b);
 	    }
 		else if (a == Double.NaN || b == Double.NaN)
 	    {
-			eq.addAll(Arrays.asList
-			( 
-				new Operand(c), new Operator('^'), new Operand(2),
-				new Operator('-')
-			));
-			
-	        if (a == Double.NaN) eq.add(new Operand(b));
-	        else if (b == Double.NaN) eq.add(new Operand(a));
-	        
-	        eq.add(new Operator('^'));
-        	eq.add(new Operand(2));
+			equation[2] = new Operand(c);
+			equation[5] = new Operator('-');
+	        if (a == Double.NaN) equation[6] = new Operand(b);
+	        else if (b == Double.NaN) equation[6] = new Operand(a);
 	    }
-	    else throw new IllegalArgumentException("All parameters are numbers: a = " + a + ", b = " + b + ", c = " + c);
-		eq.add(new Operator(')'));
-		eq.add(new Operand(2));
-    	return Arithmetic.Solve(eq).Value;
+		return Arithmetic.Solve(Arrays.asList(equation)).Value;
 	}
 	public static String Pythagorean(String aS, String bS, String cS)
 	{
