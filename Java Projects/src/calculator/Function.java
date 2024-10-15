@@ -5,6 +5,18 @@ import java.lang.String;
 
 public class Function 
 {
+	private static double StringToDouble(String s)
+	{
+		try
+		{
+			return Double.parseDouble(s);
+		}
+		catch (Exception e) 
+		{
+			return Double.NaN;
+		}
+	}
+
 	static Operand SmartSolve(Operand a, Operand b, Operator op) throws Exception, UnsupportedOperationException
 	{
 		switch (op.Name)
@@ -34,14 +46,14 @@ public class Function
 	}
 	public static String Add(String aS, String bS)
 	{
-		double a = Double.parseDouble(aS);
-		double b = Double.parseDouble(bS);
-		return Double.toString(a + b);
+		double a = StringToDouble(aS);
+		double b = StringToDouble(bS);
+		return Double.toString(Add(a,b));
 	}
 	static Operand Add(Operand a, Operand b) throws Exception
 	{
 	    if (a.Value == Double.NaN || b.Value == Double.NaN) throw new Exception();
-	    return new Operand((double)a.Value + (double)b.Value);
+	    return new Operand(Add((double)a.Value, (double)b.Value));
 	}
 
 	public static double Subtract(double a, double b)
@@ -50,15 +62,14 @@ public class Function
 	}
 	public static String Subtract(String aS, String bS)
 	{
-		double a = Double.parseDouble(aS);
-		double b = Double.parseDouble(bS);
-		return Double.toString(a - b);
-		
+		double a = StringToDouble(aS);
+		double b = StringToDouble(bS);
+		return Double.toString(Subtract(a,b));
 	}
 	static Operand Subtract(Operand a, Operand b) throws Exception
     {
         if (a.Value == Double.NaN || b.Value == Double.NaN) throw new Exception();
-        return new Operand((double)a.Value - (double)b.Value);
+        return new Operand(Subtract((double)a.Value, (double)b.Value));
     }
 	
 	public static double Multiply(double a, double b)
@@ -67,14 +78,14 @@ public class Function
 	}
 	public static String Muliply(String aS, String bS)
 	{
-		double a = Double.parseDouble(aS);
-		double b = Double.parseDouble(bS);
-		return Double.toString(a * b);
+		double a = StringToDouble(aS);
+		double b = StringToDouble(bS);
+		return Double.toString(Multiply(a, b));
 	}
 	static Operand Multiply(Operand a, Operand b) throws Exception
     {
         if (a.Value == Double.NaN || b.Value == Double.NaN) throw new Exception();
-        return new Operand((double)a.Value * (double)b.Value);
+        return new Operand(Multiply((double)a.Value, (double)b.Value));
     }
 	
 	public static double Divide(double a, double b)
@@ -84,15 +95,14 @@ public class Function
 	}
 	public static String Divide(String aS, String bS)
 	{
-		double a = Double.parseDouble(aS);
-		double b = Double.parseDouble(bS);
-		return Double.toString(a / b);
+		double a = StringToDouble(aS);
+		double b = StringToDouble(bS);
+		return Double.toString(Divide(a, b));
 	}
 	static Operand Divide(Operand a, Operand b) throws Exception
     {
         if (a.Value == Double.NaN || b.Value == Double.NaN) throw new Exception();
-        if (b.Value == 0) throw new Exception();
-        return new Operand((double)a.Value / (double)b.Value);
+        return new Operand(Divide((double)a.Value, (double)b.Value));
     }
 	
 	public static int Mod(int a, int b) throws Exception
@@ -104,14 +114,12 @@ public class Function
 	{
 		int a = Integer.parseInt(aS);
 		int b = Integer.parseInt(bS);
-		if (b == 0) throw new Exception("Cannot Divide by Zero");
-		return Integer.toString(a + b);
+		return Integer.toString(Mod(a, b));
 	}
 	static Operand Mod(Operand a, Operand b) throws Exception
     {
         if (a.Value == Double.NaN || b.Value == Double.NaN) throw new Exception();
-        if (b.Value == 0) throw new Exception();
-        return new Operand((double)a.Value % (double)b.Value);
+        return new Operand(Mod((int)a.Value, (int)b.Value));
     }
 	
 	public static double Power(double a, double b)
@@ -120,9 +128,9 @@ public class Function
 	}
 	public static String Power(String aS, String bS)
 	{
-		double a = Double.parseDouble(aS);
-		double b = Double.parseDouble(bS);
-		return Double.toString(Math.pow(a, b));
+		double a = StringToDouble(aS);
+		double b = StringToDouble(bS);
+		return Double.toString(Power(a, b));
 	}
 	static Operand Power(Operand a, Operand b) throws Exception
     {
@@ -136,14 +144,14 @@ public class Function
 	}
 	public static String Root(String aS, String bS)
 	{
-		double a = Double.parseDouble(aS);
-		double b = Double.parseDouble(bS);
-		return Double.toString(Math.pow(a, Divide(1, b)));
+		double a = StringToDouble(aS);
+		double b = StringToDouble(bS);
+		return Double.toString(Root(a, b));
 	}
 	static Operand Root(Operand a, Operand b) throws Exception
     {
         if (a.Value == Double.NaN || b.Value == Double.NaN) throw new Exception();
-        return Power(a, new Operand (Divide(1,(double)b.Value)));
+        return new Operand(Root(a.Value, b.Value));
     }
 	
 	public static double Abs(double a)
@@ -152,50 +160,41 @@ public class Function
 	}
 	public static String Abs(String a)
 	{
-		return Double.toString(Math.abs(Double.parseDouble(a)));
+		return Double.toString(Abs(StringToDouble(a)));
 	}
 	static Operand Abs(Operand a) throws Exception
 	{
 		if (a.Value == Double.NaN) throw new Exception();
-		return new Operand (Math.abs(a.Value));
+		return new Operand (Abs(a.Value));
 	}
 	
-	public static double Sin(double a)
+	public static double Sin(double a) throws Exception
 	{
+		if (a == Double.NaN) throw new Exception();
 	    return Math.sin(a);
 	}
-	public static double Sin(double a, boolean degrees)
+	public static double Sin(double a, boolean degrees) throws Exception
 	{
-	    if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-	    a = Math.sin(a);
-	    if (degrees) a = Multiply(a, Divide(180, Math.PI));
+	    if (degrees) a = Formula.DegreesToRadians(a);
+	    a = Sin(a);
+	    if (degrees) a = Formula.RadiansToDegrees(a);
 	    return a;
 	}
-	public static String Sin(String aS)
+	public static String Sin(String a) throws Exception
 	{
-		return Double.toString(Math.sin(Double.parseDouble(aS)));
+		return Double.toString(Sin(StringToDouble(a)));
 	}
-	public static String Sin(String aS, boolean degrees)
+	public static String Sin(String a, boolean degrees) throws Exception
 	{
-		double a = Double.parseDouble(aS);	
-		if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-	    a = Math.sin(a);
-	    if (degrees) a = Multiply(a, Divide(180, Math.PI));
-		return Double.toString(a);
+		return Double.toString(Sin(StringToDouble(a), degrees));
 	}
 	static Operand Sin(Operand a) throws Exception
 	{
-		if (a.Value == Double.NaN) throw new Exception();
-		return new Operand (Math.sin(a.Value));
+		return new Operand(Sin(a.Value));
 	}
 	static Operand Sin(Operand a, boolean degrees) throws Exception
 	{
-		double x = a.Value;
-		if (degrees) x = Multiply(x, Divide(Math.PI, 180));
-		if (a.Value == Double.NaN) throw new Exception();
-		x = Math.sin(x);
-		if (degrees) x = Multiply(x, Divide(180, Math.PI));
-		return new Operand(x);
+		return new Operand(Sin(a.Value, degrees));
 	}
 	
 	public static double Cos(double a)
@@ -204,9 +203,9 @@ public class Function
     }
     public static double Cos(double a, boolean degrees)
     {
-        if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-        a = Math.cos(a);
-        if (degrees) a = Multiply(a, Divide(180, Math.PI));
+        if (degrees) a = Formula.DegreesToRadians(a);
+        a = Cos(a);
+        if (degrees) a = Formula.RadiansToDegrees(a);
         return a;
     }
     public static String Cos(String aS)

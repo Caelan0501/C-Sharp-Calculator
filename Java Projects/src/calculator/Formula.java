@@ -106,4 +106,12 @@ class Formula
         return sum / nums.size();
     }
     
+    public static double DegreesToRadians(double a)
+    {
+    	return Function.Multiply(a, Function.Divide(Math.PI, 180));
+    }
+    public static double RadiansToDegrees(double a)
+    {
+    	return Function.Multiply(a, Function.Divide(180, Math.PI));
+    }
 }
