@@ -8,19 +8,19 @@ namespace Calculator
             switch (op.Name)
             {
                 case "ADD":
-                    return Function.Add(a, b);
+                    return Add(a, b);
                 case "SUBTRACT":
-                    return Function.Subtract(a, b);
+                    return Subtract(a, b);
                 case "MULTIPLY":
-                    return Function.Multiply(a, b);
+                    return Multiply(a, b);
                 case "DIVIDE":
-                    return Function.Divide(a, b);
+                    return Divide(a, b);
                 case "MODULUS":
-                    return Function.Mod(a, b);
+                    return Mod(a, b);
                 case "POWER":
-                    return Function.Power(a, b);
+                    return Power(a, b);
                 case "ROOT":
-                    return Function.Root(a, b);
+                    return Root(a, b);
                 default:
                     throw new NotImplementedException();
             }
