@@ -8,10 +8,6 @@ namespace Calculator
         {
             return BasePythagorean(a, b, c);
         }
-        public static float Pythagorean(float? a = null, float? b = null, float? c = null)
-        {
-            return (float)BasePythagorean(a, b, c);
-        }
         public static string Pythagorean(string? aS = null, string? bS = null, string? cS = null)
         {
             double? a = null;
@@ -50,15 +46,6 @@ namespace Calculator
             else throw new ArgumentException();
         }
 
-        public static int Sum(int[] nums)
-        {
-            int sum = 0;
-            foreach (int i in nums)
-            {
-                sum += i;
-            }
-            return sum;
-        }
         public static double Sum(double[] nums)
         {
             double sum = 0;
@@ -68,37 +55,10 @@ namespace Calculator
             }
             return sum;
         }
-        public static float Sum(float[] nums)
-        {
-            float sum = 0;
-            foreach (float i in nums)
-            {
-                sum += i;
-            }
-            return sum;
-        }
-        public static int Sum(List<int> nums)
-        {
-            int sum = 0;
-            foreach (int i in nums)
-            {
-                sum += i;
-            }
-            return sum;
-        }
         public static double Sum(List<double> nums)
         {
             double sum = 0;
             foreach (double i in nums)
-            {
-                sum += i;
-            }
-            return sum;
-        }
-        public static float Sum(List<float> nums)
-        {
-            float sum = 0;
-            foreach (float i in nums)
             {
                 sum += i;
             }
@@ -123,15 +83,6 @@ namespace Calculator
             return sum;
         }
 
-        public static int Mean(int[] nums)
-        {
-            int sum = 0;
-            foreach (int i in nums)
-            {
-                sum += i;
-            }
-            return sum / nums.Length;
-        }
         public static double Mean(double[] nums)
         {
             double sum = 0;
@@ -141,37 +92,10 @@ namespace Calculator
             }
             return sum / nums.Length;
         }
-        public static float Mean(float[] nums)
-        {
-            float sum = 0;
-            foreach (float i in nums)
-            {
-                sum += i;
-            }
-            return sum / nums.Length;
-        }
-        public static int Mean(List<int> nums)
-        {
-            int sum = 0;
-            foreach (int i in nums)
-            {
-                sum += i;
-            }
-            return sum / nums.Count;
-        }
         public static double Mean(List<double> nums)
         {
             double sum = 0;
             foreach (double i in nums)
-            {
-                sum += i;
-            }
-            return sum / nums.Count;
-        }
-        public static float Mean(List<float> nums)
-        {
-            float sum = 0;
-            foreach (float i in nums)
             {
                 sum += i;
             }
