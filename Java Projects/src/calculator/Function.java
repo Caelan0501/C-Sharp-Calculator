@@ -5,7 +5,7 @@ import java.lang.String;
 
 public class Function 
 {
-	static Operand SmartSolve(Operand a, Operand b, Operator op) throws Exception
+	static Operand SmartSolve(Operand a, Operand b, Operator op) throws Exception, UnsupportedOperationException
 	{
 		switch (op.Name)
 		{
