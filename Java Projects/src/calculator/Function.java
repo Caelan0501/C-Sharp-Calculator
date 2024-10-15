@@ -210,9 +210,9 @@ public class Function
 	}
 	public static double Sin(double a, boolean degrees)
 	{
-	    if (degrees) a = Formula.DegreesToRadians(a);
+	    if (degrees) a = Math.toRadians(a);
 	    a = Sin(a);
-	    if (degrees) a = Formula.RadiansToDegrees(a);
+	    if (degrees) a = Math.toDegrees(a);
 	    return a;
 	}
 	public static String Sin(String a)
@@ -239,9 +239,9 @@ public class Function
     }
     public static double Cos(double a, boolean degrees) 
     {
-        if (degrees) a = Formula.DegreesToRadians(a);
+        if (degrees) a = Math.toRadians(a);
         a = Cos(a);
-        if (degrees) a = Formula.RadiansToDegrees(a);
+        if (degrees) a = Math.toDegrees(a);
         return a;
     }
     public static String Cos(String aS) 
@@ -268,9 +268,9 @@ public class Function
     }
     public static double Tan(double a, boolean degrees)
     {
-        if (degrees) a = Formula.DegreesToRadians(a);
+        if (degrees) a = Math.toRadians(a);
         a = Tan(a);
-        if (degrees) a = Formula.RadiansToDegrees(a);
+        if (degrees) a = Math.toDegrees(a);
         return a;
     }
     public static String Tan(String aS)
@@ -297,9 +297,9 @@ public class Function
     }
     public static double Sinh(double a, boolean degrees)
     {
-        if (degrees) a = Formula.DegreesToRadians(a);
+        if (degrees) a = Math.toRadians(a);
         a = Sinh(a);
-        if (degrees) a = Formula.RadiansToDegrees(a);
+        if (degrees) a = Math.toDegrees(a);
         return a;
     }
     public static String Sinh(String aS)
@@ -326,9 +326,9 @@ public class Function
     }
     public static double Cosh(double a, boolean degrees)
     {
-        if (degrees) a = Formula.DegreesToRadians(a);
+        if (degrees) a = Math.toRadians(a);
         a = Cosh(a);
-        if (degrees) a = Formula.RadiansToDegrees(a);
+        if (degrees) a = Math.toDegrees(a);
         return a;
     }
     public static String Cosh(String aS)
@@ -355,9 +355,9 @@ public class Function
     }
     public static double Tanh(double a, boolean degrees)
     {
-        if (degrees) a = Formula.DegreesToRadians(a);
+        if (degrees) a = Math.toRadians(a);
         a = Tanh(a);
-        if (degrees) a = Formula.RadiansToDegrees(a);
+        if (degrees) a = Math.toDegrees(a);
         return a;
     }
     public static String Tanh(String aS)
@@ -384,9 +384,9 @@ public class Function
     }
     public static double Asin(double a, boolean degrees)
     {
-        if (degrees) a = Formula.DegreesToRadians(a);
+        if (degrees) a = Math.toRadians(a);
         a = Asin(a);
-        if (degrees) a = Formula.RadiansToDegrees(a);
+        if (degrees) a = Math.toDegrees(a);
         return a;
     }
     public static String Asin(String aS)
@@ -413,9 +413,9 @@ public class Function
     }
     public static double Acos(double a, boolean degrees)
     {
-        if (degrees) a = Formula.DegreesToRadians(a);
+        if (degrees) a = Math.toRadians(a);
         a = Acos(a);
-        if (degrees) a = Formula.RadiansToDegrees(a);
+        if (degrees) a = Math.toDegrees(a);
         return a;
     }
     public static String Acos(String aS)
@@ -442,9 +442,9 @@ public class Function
     }
     public static double Atan(double a, boolean degrees)
     {
-        if (degrees) a = Formula.DegreesToRadians(a);
+        if (degrees) a = Math.toRadians(a);
         a = Atan(a);
-        if (degrees) a = Formula.RadiansToDegrees(a);
+        if (degrees) a = Math.toDegrees(a);
         return a;
     }
     public static String Atan(String aS)
@@ -471,9 +471,9 @@ public class Function
 	}
 	public static double Asinh(double a, boolean degrees)
     {
-        if (degrees) a = Formula.DegreesToRadians(a);
+        if (degrees) a = Math.toRadians(a);
         a = Asinh(a);
-        if (degrees) a = Formula.RadiansToDegrees(a);
+        if (degrees) a = Math.toDegrees(a);
         return a;
     }
     public static String Asinh(String aS)
@@ -501,9 +501,9 @@ public class Function
 	}
 	public static double Acosh(double a, boolean degrees)
     {
-        if (degrees) a = Formula.DegreesToRadians(a);
+        if (degrees) a = Math.toRadians(a);
         a = Acosh(a);
-        if (degrees) a = Formula.RadiansToDegrees(a);
+        if (degrees) a = Math.toDegrees(a);
         return a;
     }
     public static String Acosh(String aS)
@@ -530,9 +530,9 @@ public class Function
 	}
 	public static double Atanh(double a, boolean degrees)
     {
-        if (degrees) a = Formula.DegreesToRadians(a);
+        if (degrees) a = Math.toRadians(a);
         a = Atanh(a);
-        if (degrees) a = Formula.RadiansToDegrees(a);
+        if (degrees) a = Math.toDegrees(a);
         return a;
     }
     public static String Atanh(String aS)

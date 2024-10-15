@@ -6,15 +6,15 @@ import java.util.Stack;
 
 public class Arithmetic 
 {
-	public static double Solve(String equation) throws Token.ParserException, Exception
+	public static double Solve(String equation) throws Token.ParserException
 	{
 		return BaseSolve(Token.ParseEquation(equation)); 
 	}
-	static Operand Solve(List<Token> equation) throws Exception
+	static Operand Solve(List<Token> equation)
     {
         return new Operand(BaseSolve(equation));
     }
-	private static double BaseSolve(List<Token> equation) throws Exception
+	private static double BaseSolve(List<Token> equation)
 	{
 		List<Token> RPN = Token.InfixToRPN(equation);
 		Stack<Token> stack = new Stack<Token>();
