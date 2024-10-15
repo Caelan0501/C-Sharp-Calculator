@@ -3,7 +3,11 @@ package calculator;
 import java.lang.Math;
 import java.lang.String;
 
-public class Function 
+//Provides Basic Functions as building blocks of equations
+//Exceptions include: 
+//		IllegalArgumentException when Dividing by Zero or an improper parameter was given
+//		UnsupportedOperationException() when a feature has either not been implemented or the Operation does not exist.
+public class Function
 {
 	private static double StringToDouble(String s)
 	{
@@ -17,7 +21,7 @@ public class Function
 		}
 	}
 
-	static Operand SmartSolve(Operand a, Operand b, Operator op) throws Exception, UnsupportedOperationException
+	static Operand SmartSolve(Operand a, Operand b, Operator op)
 	{
 		switch (op.Name)
 		{
@@ -35,13 +39,45 @@ public class Function
 		        return Power(a, b);
 		    case "ROOT":
 		        return Root(a, b);
+		    case "ABS":
+		    	return Abs(a);
+		    case "SIN":
+		    	return Sin(a);
+		    case "COS":
+		    	return Cos(a);
+		    case "TAN":
+		    	return Tan(a);
+		    case "ASIN":
+		    	return Asin(a);
+		    case "ACOS":
+		    	return Acos(a);
+		    case "ATAN":
+		    	return Atan(a);
+		    case "SINH":
+		    	return Sinh(a);
+		    case "COSH":
+		    	return Cosh(a);
+		    case "TANH":
+		    	return Tanh(a);
+		    case "ASINH":
+		    	return Asinh(a);
+		    case "ACOSH":
+		    	return Acosh(a);
+		    case "ATANH":
+		    	return Atanh(a);
+		    case "LN":
+		    	return Ln(a);
+		    case "LOG":
+		    	if (b == null) return Log(a);
+		    	else return Log(a, b);
 		    default:
-		        throw new UnsupportedOperationException();
+		        throw new UnsupportedOperationException("Attempted Operation: " + op.Name);
 		}
 	}
 	
 	public static double Add(double a, double b)
 	{
+		if (a == Double.NaN || b == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
 	    return a + b;
 	}
 	public static String Add(String aS, String bS)
@@ -50,14 +86,14 @@ public class Function
 		double b = StringToDouble(bS);
 		return Double.toString(Add(a,b));
 	}
-	static Operand Add(Operand a, Operand b) throws Exception
+	static Operand Add(Operand a, Operand b)
 	{
-	    if (a.Value == Double.NaN || b.Value == Double.NaN) throw new Exception();
 	    return new Operand(Add((double)a.Value, (double)b.Value));
 	}
 
 	public static double Subtract(double a, double b)
 	{
+		if (a == Double.NaN || b == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
 	    return a - b; 
 	}
 	public static String Subtract(String aS, String bS)
@@ -66,14 +102,14 @@ public class Function
 		double b = StringToDouble(bS);
 		return Double.toString(Subtract(a,b));
 	}
-	static Operand Subtract(Operand a, Operand b) throws Exception
+	static Operand Subtract(Operand a, Operand b)
     {
-        if (a.Value == Double.NaN || b.Value == Double.NaN) throw new Exception();
         return new Operand(Subtract((double)a.Value, (double)b.Value));
     }
 	
 	public static double Multiply(double a, double b)
 	{
+		if (a == Double.NaN || b == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
 	    return a * b;
 	}
 	public static String Muliply(String aS, String bS)
@@ -82,15 +118,15 @@ public class Function
 		double b = StringToDouble(bS);
 		return Double.toString(Multiply(a, b));
 	}
-	static Operand Multiply(Operand a, Operand b) throws Exception
+	static Operand Multiply(Operand a, Operand b)
     {
-        if (a.Value == Double.NaN || b.Value == Double.NaN) throw new Exception();
         return new Operand(Multiply((double)a.Value, (double)b.Value));
     }
 	
 	public static double Divide(double a, double b)
 	{
-	    if (b == 0) return Double.NaN;
+		if (a == Double.NaN || b == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
+	    if (b == 0) throw new IllegalArgumentException("Cannot Divide by Zero");
 	    return a / b;
 	}
 	public static String Divide(String aS, String bS)
@@ -99,31 +135,31 @@ public class Function
 		double b = StringToDouble(bS);
 		return Double.toString(Divide(a, b));
 	}
-	static Operand Divide(Operand a, Operand b) throws Exception
+	static Operand Divide(Operand a, Operand b)
     {
-        if (a.Value == Double.NaN || b.Value == Double.NaN) throw new Exception();
         return new Operand(Divide((double)a.Value, (double)b.Value));
     }
 	
-	public static int Mod(int a, int b) throws Exception
+	public static int Mod(int a, int b)
 	{
-	    if (b == 0) throw new Exception("Cannot Divide by Zero");
+		if (a == Double.NaN || b == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
+	    if (b == 0) throw new IllegalArgumentException("Cannot Divide by Zero");
 	    return a % b;
 	}
-	public static String Mod(String aS, String bS) throws Exception
+	public static String Mod(String aS, String bS)
 	{
 		int a = Integer.parseInt(aS);
 		int b = Integer.parseInt(bS);
 		return Integer.toString(Mod(a, b));
 	}
-	static Operand Mod(Operand a, Operand b) throws Exception
+	static Operand Mod(Operand a, Operand b)
     {
-        if (a.Value == Double.NaN || b.Value == Double.NaN) throw new Exception();
         return new Operand(Mod((int)a.Value, (int)b.Value));
     }
 	
 	public static double Power(double a, double b)
 	{
+		if (a == Double.NaN || b == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
 	    return Math.pow(a, b);
 	}
 	public static String Power(String aS, String bS)
@@ -132,14 +168,14 @@ public class Function
 		double b = StringToDouble(bS);
 		return Double.toString(Power(a, b));
 	}
-	static Operand Power(Operand a, Operand b) throws Exception
+	static Operand Power(Operand a, Operand b)
     {
-        if (a.Value == Double.NaN || b.Value == Double.NaN) throw new Exception();
         return new Operand(Math.pow((double)a.Value, (double)b.Value));
     }
 	
 	public static double Root(double a, double b)
 	{
+		if (a == Double.NaN || b == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
 	    return Power(a, Divide(1, b));
 	}
 	public static String Root(String aS, String bS)
@@ -148,516 +184,412 @@ public class Function
 		double b = StringToDouble(bS);
 		return Double.toString(Root(a, b));
 	}
-	static Operand Root(Operand a, Operand b) throws Exception
+	static Operand Root(Operand a, Operand b)
     {
-        if (a.Value == Double.NaN || b.Value == Double.NaN) throw new Exception();
         return new Operand(Root(a.Value, b.Value));
     }
 	
 	public static double Abs(double a)
 	{
+		if (a == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
 	    return Math.abs(a);
 	}
 	public static String Abs(String a)
 	{
 		return Double.toString(Abs(StringToDouble(a)));
 	}
-	static Operand Abs(Operand a) throws Exception
+	static Operand Abs(Operand a)
 	{
-		if (a.Value == Double.NaN) throw new Exception();
 		return new Operand (Abs(a.Value));
 	}
 	
-	public static double Sin(double a) throws Exception
+	public static double Sin(double a)
 	{
-		if (a == Double.NaN) throw new Exception();
+		if (a == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
 	    return Math.sin(a);
 	}
-	public static double Sin(double a, boolean degrees) throws Exception
+	public static double Sin(double a, boolean degrees)
 	{
 	    if (degrees) a = Formula.DegreesToRadians(a);
 	    a = Sin(a);
 	    if (degrees) a = Formula.RadiansToDegrees(a);
 	    return a;
 	}
-	public static String Sin(String a) throws Exception
+	public static String Sin(String a)
 	{
 		return Double.toString(Sin(StringToDouble(a)));
 	}
-	public static String Sin(String a, boolean degrees) throws Exception
+	public static String Sin(String a, boolean degrees)
 	{
 		return Double.toString(Sin(StringToDouble(a), degrees));
 	}
-	static Operand Sin(Operand a) throws Exception
+	static Operand Sin(Operand a)
 	{
 		return new Operand(Sin(a.Value));
 	}
-	static Operand Sin(Operand a, boolean degrees) throws Exception
+	static Operand Sin(Operand a, boolean degrees)
 	{
 		return new Operand(Sin(a.Value, degrees));
 	}
 	
-	public static double Cos(double a)
+	public static double Cos(double a) 
     {
+		if (a == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
     	return Math.cos(a);
     }
-    public static double Cos(double a, boolean degrees)
+    public static double Cos(double a, boolean degrees) 
     {
         if (degrees) a = Formula.DegreesToRadians(a);
         a = Cos(a);
         if (degrees) a = Formula.RadiansToDegrees(a);
         return a;
     }
-    public static String Cos(String aS)
+    public static String Cos(String aS) 
 	{
-		return Double.toString(Math.cos(Double.parseDouble(aS)));
+		return Double.toString(Cos(StringToDouble(aS)));
 	}
-	public static String Cos(String aS, boolean degrees)
+	public static String Cos(String aS, boolean degrees) 
 	{
-		double a = Double.parseDouble(aS);	
-		if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-	    a = Math.cos(a);
-	    if (degrees) a = Multiply(a, Divide(180, Math.PI));
-		return Double.toString(a);
+		return Double.toString(Cos(StringToDouble(aS), degrees));
 	}
-	static Operand Cos(Operand a) throws Exception
+	static Operand Cos(Operand a) 
 	{
-		if (a.Value == Double.NaN) throw new Exception();
-		return new Operand (Math.cos(a.Value));
+		return new Operand (Cos(a.Value));
 	}
-	static Operand Cos(Operand a, boolean degrees) throws Exception
+	static Operand Cos(Operand a, boolean degrees) 
 	{
-		double x = a.Value;
-		if (degrees) x = Multiply(x, Divide(Math.PI, 180));
-		if (a.Value == Double.NaN) throw new Exception();
-		x = Math.cos(x);
-		if (degrees) x = Multiply(x, Divide(180, Math.PI));
-		return new Operand(x);
+		return new Operand(Cos(a.Value, degrees));
 	}
 	
-    public static double Tan(double a)
+    public static double Tan(double a) 
     {
-        return Math.tan(a);
+    	if (a == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
+    	return Math.tan(a);
     }
     public static double Tan(double a, boolean degrees)
     {
-        if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-        a = Math.tan(a);
-        if (degrees) a = Multiply(a, Divide(180, Math.PI));
+        if (degrees) a = Formula.DegreesToRadians(a);
+        a = Tan(a);
+        if (degrees) a = Formula.RadiansToDegrees(a);
         return a;
     }
     public static String Tan(String aS)
 	{
-		return Double.toString(Math.tan(Double.parseDouble(aS)));
+		return Double.toString(Tan(StringToDouble(aS)));
 	}
 	public static String Tan(String aS, boolean degrees)
 	{
-		double a = Double.parseDouble(aS);	
-		if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-	    a = Math.tan(a);
-	    if (degrees) a = Multiply(a, Divide(180, Math.PI));
-		return Double.toString(a);
+		return Double.toString(Tan(StringToDouble(aS), degrees));
 	}
-	static Operand Tan(Operand a) throws Exception
+	static Operand Tan(Operand a)
 	{
-		if (a.Value == Double.NaN) throw new Exception();
-		return new Operand (Math.tan(a.Value));
+		return new Operand(Tan(a.Value));
 	}
-	static Operand Tan(Operand a, boolean degrees) throws Exception
+	static Operand Tan(Operand a, boolean degrees)
 	{
-		double x = a.Value;
-		if (degrees) x = Multiply(x, Divide(Math.PI, 180));
-		if (a.Value == Double.NaN) throw new Exception();
-		x = Math.tan(x);
-		if (degrees) x = Multiply(x, Divide(180, Math.PI));
-		return new Operand(x);
+		return new Operand(Tan(a.Value, degrees));
 	}
 
-    public static double Sinh(double a)
+    public static double Sinh(double a) 
     {
-        return Math.sinh(a);
+    	if (a == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
+    	return Math.sinh(a);
     }
     public static double Sinh(double a, boolean degrees)
     {
-    	if (degrees) a = Multiply(a, Divide((float)Math.PI, 180));
-        a = Math.sinh(a);
-        if (degrees) a = Multiply(a, Divide(180, (float)Math.PI));
+        if (degrees) a = Formula.DegreesToRadians(a);
+        a = Sinh(a);
+        if (degrees) a = Formula.RadiansToDegrees(a);
         return a;
     }
     public static String Sinh(String aS)
 	{
-		return Double.toString(Math.sinh(Double.parseDouble(aS)));
+		return Double.toString(Sinh(StringToDouble(aS)));
 	}
 	public static String Sinh(String aS, boolean degrees)
 	{
-		double a = Double.parseDouble(aS);	
-		if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-	    a = Math.sinh(a);
-	    if (degrees) a = Multiply(a, Divide(180, Math.PI));
-		return Double.toString(a);
+		return Double.toString(Sinh(StringToDouble(aS), degrees));
 	}
-	static Operand Sinh(Operand a) throws Exception
+	static Operand Sinh(Operand a)
 	{
-		if (a.Value == Double.NaN) throw new Exception();
-		return new Operand (Math.sinh(a.Value));
+		return new Operand(Sinh(a.Value));
 	}
-	static Operand Sinh(Operand a, boolean degrees) throws Exception
+	static Operand Sinh(Operand a, boolean degrees)
 	{
-		double x = a.Value;
-		if (degrees) x = Multiply(x, Divide(Math.PI, 180));
-		if (a.Value == Double.NaN) throw new Exception();
-		x = Math.sinh(x);
-		if (degrees) x = Multiply(x, Divide(180, Math.PI));
-		return new Operand(x);
+		return new Operand(Sinh(a.Value, degrees));
 	}
 	
     public static double Cosh(double a)
     {
-        return Math.cosh(a);
+    	if (a == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
+    	return Math.cosh(a);
     }
     public static double Cosh(double a, boolean degrees)
     {
-        if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-        a = Math.cosh(a);
-        if (degrees) a = Multiply(a, Divide(180, Math.PI));
+        if (degrees) a = Formula.DegreesToRadians(a);
+        a = Cosh(a);
+        if (degrees) a = Formula.RadiansToDegrees(a);
         return a;
     }
     public static String Cosh(String aS)
 	{
-		return Double.toString(Math.cosh(Double.parseDouble(aS)));
+		return Double.toString(Cosh(StringToDouble(aS)));
 	}
 	public static String Cosh(String aS, boolean degrees)
 	{
-		double a = Double.parseDouble(aS);	
-		if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-	    a = Math.cosh(a);
-	    if (degrees) a = Multiply(a, Divide(180, Math.PI));
-		return Double.toString(a);
+		return Double.toString(Cosh(StringToDouble(aS), degrees));
 	}
-	static Operand Cosh(Operand a) throws Exception
+	static Operand Cosh(Operand a)
 	{
-		if (a.Value == Double.NaN) throw new Exception();
-		return new Operand (Math.cosh(a.Value));
+		return new Operand(Cosh(a.Value));
 	}
-	static Operand Cosh(Operand a, boolean degrees) throws Exception
+	static Operand Cosh(Operand a, boolean degrees)
 	{
-		double x = a.Value;
-		if (degrees) x = Multiply(x, Divide(Math.PI, 180));
-		if (a.Value == Double.NaN) throw new Exception();
-		x = Math.cosh(x);
-		if (degrees) x = Multiply(x, Divide(180, Math.PI));
-		return new Operand(x);
+		return new Operand(Cosh(a.Value, degrees));
 	}
 	
     public static double Tanh(double a)
     {
-        return Math.tanh(a);
+    	if (a == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
+    	return Math.tanh(a);
     }
     public static double Tanh(double a, boolean degrees)
     {
-        if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-        a = Math.tanh(a);
-        if (degrees) a = Multiply(a, Divide(180, Math.PI));
+        if (degrees) a = Formula.DegreesToRadians(a);
+        a = Tanh(a);
+        if (degrees) a = Formula.RadiansToDegrees(a);
         return a;
     }
     public static String Tanh(String aS)
 	{
-		return Double.toString(Math.tanh(Double.parseDouble(aS)));
+		return Double.toString(Tanh(StringToDouble(aS)));
 	}
 	public static String Tanh(String aS, boolean degrees)
 	{
-		double a = Double.parseDouble(aS);	
-		if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-	    a = Math.tanh(a);
-	    if (degrees) a = Multiply(a, Divide(180, Math.PI));
-		return Double.toString(a);
+		return Double.toString(Tanh(StringToDouble(aS), degrees));
 	}
-	static Operand Tanh(Operand a) throws Exception
+	static Operand Tanh(Operand a)
 	{
-		if (a.Value == Double.NaN) throw new Exception();
-		return new Operand (Math.tanh(a.Value));
+		return new Operand(Tanh(a.Value));
 	}
-	static Operand Tanh(Operand a, boolean degrees) throws Exception
+	static Operand Tanh(Operand a, boolean degrees)
 	{
-		double x = a.Value;
-		if (degrees) x = Multiply(x, Divide(Math.PI, 180));
-		if (a.Value == Double.NaN) throw new Exception();
-		x = Math.tanh(x);
-		if (degrees) x = Multiply(x, Divide(180, Math.PI));
-		return new Operand(x);
+		return new Operand(Tanh(a.Value, degrees));
 	}
 	
     public static double Asin(double a)
     {
-        return Math.asin(a);
+    	if (a == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
+    	return Math.asin(a);
     }
     public static double Asin(double a, boolean degrees)
     {
-        if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-        a = Math.asin(a);
-        if (degrees) a = Multiply(a, Divide(180, Math.PI));
+        if (degrees) a = Formula.DegreesToRadians(a);
+        a = Asin(a);
+        if (degrees) a = Formula.RadiansToDegrees(a);
         return a;
     }
     public static String Asin(String aS)
 	{
-		return Double.toString(Math.asin(Double.parseDouble(aS)));
+		return Double.toString(Asin(StringToDouble(aS)));
 	}
 	public static String Asin(String aS, boolean degrees)
 	{
-		double a = Double.parseDouble(aS);	
-		if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-	    a = Math.asin(a);
-	    if (degrees) a = Multiply(a, Divide(180, Math.PI));
-		return Double.toString(a);
+		return Double.toString(Asin(StringToDouble(aS), degrees));
 	}
-	static Operand Asin(Operand a) throws Exception
+	static Operand Asin(Operand a)
 	{
-		if (a.Value == Double.NaN) throw new Exception();
-		return new Operand (Math.asin(a.Value));
+		return new Operand(Asin(a.Value));
 	}
-	static Operand Asin(Operand a, boolean degrees) throws Exception
+	static Operand Asin(Operand a, boolean degrees)
 	{
-		double x = a.Value;
-		if (degrees) x = Multiply(x, Divide(Math.PI, 180));
-		if (a.Value == Double.NaN) throw new Exception();
-		x = Math.asin(x);
-		if (degrees) x = Multiply(x, Divide(180, Math.PI));
-		return new Operand(x);
+		return new Operand(Asin(a.Value, degrees));
 	}
 	
     public static double Acos(double a)
     {
-        return Math.acos(a);
+    	if (a == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
+    	return Math.acos(a);
     }
     public static double Acos(double a, boolean degrees)
     {
-        if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-        a = Math.acos(a);
-        if (degrees) a = Multiply(a, Divide(180, Math.PI));
+        if (degrees) a = Formula.DegreesToRadians(a);
+        a = Acos(a);
+        if (degrees) a = Formula.RadiansToDegrees(a);
         return a;
     }
     public static String Acos(String aS)
 	{
-		return Double.toString(Math.acos(Double.parseDouble(aS)));
+		return Double.toString(Acos(StringToDouble(aS)));
 	}
 	public static String Acos(String aS, boolean degrees)
 	{
-		double a = Double.parseDouble(aS);	
-		if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-	    a = Math.acos(a);
-	    if (degrees) a = Multiply(a, Divide(180, Math.PI));
-		return Double.toString(a);
+		return Double.toString(Acos(StringToDouble(aS), degrees));
 	}
-	static Operand Acos(Operand a) throws Exception
+	static Operand Acos(Operand a)
 	{
-		if (a.Value == Double.NaN) throw new Exception();
-		return new Operand (Math.acos(a.Value));
+		return new Operand(Acos(a.Value));
 	}
-	static Operand Acos(Operand a, boolean degrees) throws Exception
+	static Operand Acos(Operand a, boolean degrees)
 	{
-		double x = a.Value;
-		if (degrees) x = Multiply(x, Divide(Math.PI, 180));
-		if (a.Value == Double.NaN) throw new Exception();
-		x = Math.acos(x);
-		if (degrees) x = Multiply(x, Divide(180, Math.PI));
-		return new Operand(x);
+		return new Operand(Acos(a.Value, degrees));
 	}
 	
 	public static double Atan(double a)
-	{
-		return Math.atan(a);
-	}
-	public static double Atan(double a, boolean degrees)
     {
-        if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-        a = Math.atan(a);
-        if (degrees) a = Multiply(a, Divide(180, Math.PI));
+		if (a == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
+    	return Math.atan(a);
+    }
+    public static double Atan(double a, boolean degrees)
+    {
+        if (degrees) a = Formula.DegreesToRadians(a);
+        a = Atan(a);
+        if (degrees) a = Formula.RadiansToDegrees(a);
         return a;
     }
     public static String Atan(String aS)
 	{
-		return Double.toString(Math.atan(Double.parseDouble(aS)));
+		return Double.toString(Atan(StringToDouble(aS)));
 	}
 	public static String Atan(String aS, boolean degrees)
 	{
-		double a = Double.parseDouble(aS);	
-		if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-	    a = Math.atan(a);
-	    if (degrees) a = Multiply(a, Divide(180, Math.PI));
-		return Double.toString(a);
+		return Double.toString(Atan(StringToDouble(aS), degrees));
 	}
-	static Operand Atan(Operand a) throws Exception
+	static Operand Atan(Operand a)
 	{
-		if (a.Value == Double.NaN) throw new Exception();
-		return new Operand (Math.atan(a.Value));
+		return new Operand(Atan(a.Value));
 	}
-	static Operand Atan(Operand a, boolean degrees) throws Exception
+	static Operand Atan(Operand a, boolean degrees)
 	{
-		double x = a.Value;
-		if (degrees) x = Multiply(x, Divide(Math.PI, 180));
-		if (a.Value == Double.NaN) throw new Exception();
-		x = Math.atan(x);
-		if (degrees) x = Multiply(x, Divide(180, Math.PI));
-		return new Operand(x);
+		return new Operand(Atan(a.Value, degrees));
 	}
 	
 	public static double Asinh(double a)
 	{
+		if (a == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
 		return Math.log(a + Math.sqrt(a * a + 1));
 	}
-	public static String Asinh(String aS)
-	{
-		double a = Double.parseDouble(aS);
-		return Double.toString( Math.log(a + Math.sqrt(a * a + 1)));
-	}
 	public static double Asinh(double a, boolean degrees)
-	{
-		if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-        a = Math.log(a + Math.sqrt(a * a + 1));
-        if (degrees) a = Multiply(a, Divide(180, Math.PI));
+    {
+        if (degrees) a = Formula.DegreesToRadians(a);
+        a = Asinh(a);
+        if (degrees) a = Formula.RadiansToDegrees(a);
         return a;
+    }
+    public static String Asinh(String aS)
+	{
+		return Double.toString(Asinh(StringToDouble(aS)));
 	}
 	public static String Asinh(String aS, boolean degrees)
 	{
-		double a = Double.parseDouble(aS);
-		if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-        a = Math.log(a + Math.sqrt(a * a + 1));
-        if (degrees) a = Multiply(a, Divide(180, Math.PI));
-        return Double.toString(a);
+		return Double.toString(Asinh(StringToDouble(aS), degrees));
 	}
-	static Operand Asinh(Operand a) throws Exception
+	static Operand Asinh(Operand a)
 	{
-		if (a.Value == Double.NaN) throw new Exception();
-		return new Operand(Math.log(a.Value + Math.sqrt(a.Value * a.Value + 1)));
+		return new Operand(Asinh(a.Value));
 	}
-	static Operand Asinh(Operand a, boolean degrees) throws Exception
+	static Operand Asinh(Operand a, boolean degrees)
 	{
-		double x = a.Value;
-		if (degrees) x = Multiply(x, Divide(Math.PI, 180));
-		if (a.Value == Double.NaN) throw new Exception();
-		x = Math.log(x + Math.sqrt(x * x + 1));
-		if (degrees) x = Multiply(x, Divide(180, Math.PI));
-		return new Operand(x);
+		return new Operand(Asinh(a.Value, degrees));
 	}
 	
 	public static double Acosh(double a)
 	{
 		if (a < 1) return Double.NaN;
+		if (a == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
 		return Math.log(a + Math.sqrt(a * a - 1));
 	}
-	public static String Acosh(String aS)
-	{
-		double a = Double.parseDouble(aS);
-		if (a < 1) return Double.toString(Double.NaN);
-		return Double.toString(Math.log(a + Math.sqrt(a * a - 1)));
-	}
 	public static double Acosh(double a, boolean degrees)
-	{
-		if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-		if (a < 1) return Double.NaN;
-        a = Math.log(a + Math.sqrt(a * a - 1));
-        if (degrees) a = Multiply(a, Divide(180, Math.PI));
+    {
+        if (degrees) a = Formula.DegreesToRadians(a);
+        a = Acosh(a);
+        if (degrees) a = Formula.RadiansToDegrees(a);
         return a;
+    }
+    public static String Acosh(String aS)
+	{
+		return Double.toString(Acosh(StringToDouble(aS)));
 	}
 	public static String Acosh(String aS, boolean degrees)
 	{
-		double a = Double.parseDouble(aS);
-		if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-		if (a < 1) return Double.toString(Double.NaN);
-        a = Math.log(a + Math.sqrt(a * a - 1));
-        if (degrees) a = Multiply(a, Divide(180, Math.PI));
-        return Double.toString(a);
+		return Double.toString(Acosh(StringToDouble(aS), degrees));
 	}
-	static Operand Acosh(Operand a) throws Exception
+	static Operand Acosh(Operand a)
 	{
-		if (a.Value == Double.NaN) throw new Exception();
-		return new Operand(Math.log(a.Value + Math.sqrt(a.Value * a.Value - 1)));
+		return new Operand(Acosh(a.Value));
 	}
-	static Operand Acosh(Operand a, boolean degrees) throws Exception
+	static Operand Acosh(Operand a, boolean degrees)
 	{
-		double x = a.Value;
-		if (degrees) x = Multiply(x, Divide(Math.PI, 180));
-		if (a.Value == Double.NaN || a.Value < 1) throw new Exception();
-		x = Math.log(x + Math.sqrt(x * x - 1));
-		if (degrees) x = Multiply(x, Divide(180, Math.PI));
-		return new Operand(x);
+		return new Operand(Acosh(a.Value, degrees));
 	}
 	
-	public static double Atanh(double a) 
+	public static double Atanh(double a)
 	{
+		if (a == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
 	    return 0.5 * Math.log((1 + a) / (1 - a));
 	}
-	public static String Atanh(String aS)
-	{
-		double a = Double.parseDouble(aS);
-		return Double.toString( 0.5 * Math.log((1 + a) / (1 - a)));
-	}
 	public static double Atanh(double a, boolean degrees)
-	{
-		if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-        a = 0.5 * Math.log((1 + a) / (1 - a));
-        if (degrees) a = Multiply(a, Divide(180, Math.PI));
+    {
+        if (degrees) a = Formula.DegreesToRadians(a);
+        a = Atanh(a);
+        if (degrees) a = Formula.RadiansToDegrees(a);
         return a;
+    }
+    public static String Atanh(String aS)
+	{
+		return Double.toString(Atanh(StringToDouble(aS)));
 	}
 	public static String Atanh(String aS, boolean degrees)
 	{
-		double a = Double.parseDouble(aS);
-		if (degrees) a = Multiply(a, Divide(Math.PI, 180));
-        a = 0.5 * Math.log((1 + a) / (1 - a));
-        if (degrees) a = Multiply(a, Divide(180, Math.PI));
-        return Double.toString(a);
+		return Double.toString(Atanh(StringToDouble(aS), degrees));
 	}
-	static Operand Atanh(Operand a) throws Exception
+	static Operand Atanh(Operand a)
 	{
-		if (a.Value == Double.NaN) throw new Exception();
-		return new Operand(0.5 * Math.log((1 + a.Value) / (1 - a.Value)));
+		return new Operand(Atanh(a.Value));
 	}
-	static Operand Atanh(Operand a, boolean degrees) throws Exception
+	static Operand Atanh(Operand a, boolean degrees)
 	{
-		double x = a.Value;
-		if (degrees) x = Multiply(x, Divide(Math.PI, 180));
-		if (a.Value == Double.NaN) throw new Exception();
-		x = 0.5 * Math.log((1 + x) / (1 - x));
-		if (degrees) x = Multiply(x, Divide(180, Math.PI));
-		return new Operand(x);
+		return new Operand(Atanh(a.Value, degrees));
 	}
 	
     public static double Ln(double a)
     {
+    	if (a == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
         return Math.log(a);
     }
     public static String Ln(String aS)
     {
-    	double a = Double.parseDouble(aS);
-    	return Double.toString(Math.log(a));
+    	double a = StringToDouble(aS);
+    	return Double.toString(Ln(a));
     }
     static Operand Ln(Operand a)
     {
-    	return new Operand(Math.log(a.Value));
+    	return new Operand(Ln(a.Value));
     }
     public static double Log(double a)
     {
-    	return Math.log(a);
+    	if (a == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
+    	return Math.log10(a);
     }
     public static String Log(String a)
     {
-    	return Double.toString(Math.log(Double.parseDouble(a)));
+    	return Double.toString(Log(StringToDouble(a)));
     }
-    static Operand Log(Operand a) throws Exception
+    static Operand Log(Operand a)
     {
-    	if (a.Value == Double.NaN) throw new Exception();
-    	return new Operand(Math.log(a.Value));
+    	return new Operand(Log(a.Value));
     }
     public static double Log(double a, double b)
     {
-    	return Ln(a) / Ln(b);
+    	if (a == Double.NaN || b == Double.NaN) throw new IllegalArgumentException("Both Parameters must be a number");
+    	return Divide(Ln(a), Ln(b));
     }
     public static String Log(String a, String b)
     {
-    	return Divide(Ln(a), Ln(b));
+    	return Double.toString(Log(StringToDouble(a), StringToDouble(b)));
     }
-    static Operand Log(Operand a, Operand b) throws Exception
+    static Operand Log(Operand a, Operand b)
     {
-    	return Divide(Ln(a), Ln(b));
+    	return new Operand(Divide(Ln(a.Value), Ln(b.Value)));
     }
 }
