@@ -91,51 +91,51 @@ namespace Calculator
         internal static List<Token> InfixToRPN(List<Token> tokens)
         {
             //Shunting yard Algorithm
-            //Prase Dijstra
-            Stack<Operator> operatorStack = new Stack<Operator>();
-            List<Token> RPN = new List<Token>();
-            foreach (Token token in tokens)
-            {
-                if (token.GetType() == typeof(Operand))
-                {
-                    RPN.Add(token);
-                    continue;
-                }
-                else if (token.Name == "LPAREN")
-                {
-                    operatorStack.Push((Operator)token);
-                    continue;
-                }
-                else if (token.Name == "RPAREN")
-                {
-                    Operator top = operatorStack.Peek();
-                    while (!(top.Name == "LPAREN"))
-                    {
-                        RPN.Add(operatorStack.Pop());
-                        top = operatorStack.Peek();
-                    }
-                    operatorStack.Pop();// Remove the LPAREN
-                }
-                else
-                {
-                    Operator top;
-                    Operator curr = (Operator)token;
-                    if (operatorStack.Count == 0) operatorStack.Push(curr);
-                    else
-                    {
-                        top = operatorStack.Peek();
-                        while (!(top.Name == "LPAREN") && ((curr.Precedence <= top.Precedence) && curr.Associativity == 'L'))
+                        //Prase Dijstra
+                        Stack<Operator> operatorStack = new Stack<Operator>();
+                        List<Token> RPN = new List<Token>();
+                        foreach (Token token in tokens)
                         {
-                            RPN.Add(operatorStack.Pop());
-                            if (operatorStack.Count == 0) break;
-                            top = operatorStack.Peek();
+                            if (token.GetType() == typeof(Operand))
+                            {
+                                RPN.Add(token);
+                                continue;
+                            }
+                            else if (token.Name == "LPAREN")
+                            {
+                                operatorStack.Push((Operator)token);
+                                continue;
+                            }
+                            else if (token.Name == "RPAREN")
+                            {
+                                Operator top = operatorStack.Peek();
+                                while (!(top.Name == "LPAREN"))
+                                {
+                                    RPN.Add(operatorStack.Pop());
+                                    top = operatorStack.Peek();
+                                }
+                                operatorStack.Pop();// Remove the LPAREN
+                            }
+                            else
+                            {
+                                Operator top;
+                                Operator curr = (Operator)token;
+                                if (operatorStack.Count == 0) operatorStack.Push(curr);
+                                else
+                                {
+                                    top = operatorStack.Peek();
+                                    while (!(top.Name == "LPAREN") && ((curr.Precedence <= top.Precedence) && curr.Associativity == 'L'))
+                                    {
+                                        RPN.Add(operatorStack.Pop());
+                                        if (operatorStack.Count == 0) break;
+                                        top = operatorStack.Peek();
+                                    }
+                                    operatorStack.Push(curr);
+                                }
+                            }
                         }
-                        operatorStack.Push(curr);
-                    }
-                }
-            }
-            while (operatorStack.Count > 0) RPN.Add(operatorStack.Pop());
-            return RPN;
+                        while (operatorStack.Count > 0) RPN.Add(operatorStack.Pop());
+                        return RPN;
         }
         internal static List<Token> RPNToInfix(List<Token> RPN)
         {
